@@ -47,6 +47,7 @@ export const userSignup = async (req, res) => {
         email: newUser.email,
         gradeLevel: newUser.gradeLevel,
         section: newUser.section,
+        role: "user",
       });
     } else {
       res.status(400).json({ error: "Invalid user data" });
@@ -81,6 +82,7 @@ export const userLogin = async (req, res) => {
       email: user.email,
       gradeLevel: user.gradeLevel,
       section: user.section,
+      role: "user",
     });
   } catch (error) {
     if (error instanceof Error) {

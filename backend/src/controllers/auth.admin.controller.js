@@ -35,6 +35,7 @@ export const adminSignup = async (req, res) => {
         firstName: newAdmin.firstName,
         lastName: newAdmin.lastName,
         email: newAdmin.email,
+        role: "admin",
       });
     } else {
       res.status(400).json({ error: "Invalid admin data" });
@@ -67,6 +68,7 @@ export const adminLogin = async (req, res) => {
       firstName: admin.firstName,
       lastName: admin.lastName,
       email: admin.email,
+      role: "admin",
     });
   } catch (error) {
     if (error instanceof Error) {

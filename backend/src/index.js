@@ -6,6 +6,9 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import dotenv from "dotenv";
 
+import connectToMongoDB from "./db/db.connect.js";
+import userAuthRouter from "./routers/auth.user.route.js";
+
 dotenv.config();
 
 const app = express();
@@ -18,13 +21,16 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
-  res.send("Welcome to Web-Smash Badminton Training Program!");
+  res.send("Welcome to Web-Smash Badminton Training Website!");
 });
+
+app.use("/api/auth/user", userAuthRouter);
 
 app.use((req, res, next) => {
   res.status(404).json({ message: "Route not found" });
 });
 
 app.listen(port, () => {
+  connectToMongoDB();
   console.log(`Server running on http://localhost:${port}`);
 });

@@ -4,7 +4,8 @@ import generateTokenAndSetCookie from "../utils/generateToken.js";
 
 export const adminSignup = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, confirmPassword } = req.body;
+    const { firstName, lastName, email, password, confirmPassword, secretKey } =
+      req.body;
 
     if (password !== confirmPassword) {
       return res.status(400).json({ error: "Passwords don't match" });
@@ -13,7 +14,11 @@ export const adminSignup = async (req, res) => {
     const admin = await Admin.findOne({ email });
 
     if (admin) {
-      return res.status(400).json({ error: "Email already exists" });
+      return res.status(409).json({ error: "Email already exists" });
+    }
+
+    if (secretKey !== process.env.ADMIN_SECRET_KEY) {
+      return res.status(403).json({ error: "Invalid secret key" });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -31,7 +36,6 @@ export const adminSignup = async (req, res) => {
       await newAdmin.save();
 
       res.status(201).json({
-        _id: newAdmin._id,
         firstName: newAdmin.firstName,
         lastName: newAdmin.lastName,
         email: newAdmin.email,

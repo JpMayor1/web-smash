@@ -53,7 +53,8 @@ const SignupAdminApi = async (
   lastName,
   email,
   password,
-  confirmPassword
+  confirmPassword,
+  secretKey
 ) => {
   const response = await axiosInstance.post("/api/auth/admin/signup", {
     firstName,
@@ -61,6 +62,7 @@ const SignupAdminApi = async (
     email,
     password,
     confirmPassword,
+    secretKey,
   });
 
   return response;

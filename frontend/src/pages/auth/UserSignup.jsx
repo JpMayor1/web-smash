@@ -9,6 +9,7 @@ import {
   Mortarboard01Icon,
   UserIcon,
 } from "../../components/svg/svg";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const UserSignup = () => {
   const [form, setForm] = useState({
@@ -20,6 +21,9 @@ const UserSignup = () => {
     gradeLevel: "",
     section: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { signup, loading } = useUserSignup();
 
@@ -93,10 +97,10 @@ const UserSignup = () => {
             />
           </label>
 
-          <label className="input input-bordered flex items-center gap-2">
+          <label className="input input-bordered flex items-center gap-2 relative">
             <KeyIcon />
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               value={form.password}
               onChange={handleChange}
@@ -104,12 +108,18 @@ const UserSignup = () => {
               placeholder="Password"
               required
             />
+            <button
+              type="button"
+              className="absolute right-3"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEye /> : <FaEyeSlash />}
+            </button>
           </label>
-
-          <label className="input input-bordered flex items-center gap-2">
+          <label className="input input-bordered flex items-center gap-2 relative">
             <KeyIcon />
             <input
-              type="password"
+              type={showConfirmPassword ? "text" : "password"}
               name="confirmPassword"
               value={form.confirmPassword}
               onChange={handleChange}
@@ -117,6 +127,13 @@ const UserSignup = () => {
               placeholder="Confirm Password"
               required
             />
+            <button
+              type="button"
+              className="absolute right-3"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            >
+              {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
+            </button>
           </label>
 
           <label className="input input-bordered flex items-center gap-2">

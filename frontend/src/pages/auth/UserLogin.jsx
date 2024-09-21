@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import useUserLogin from "../../hooks/user/useUserLogin";
 import bg from "../../assets/web-smash-bg.jpg";
 import { EmailIcon, KeyIcon } from "../../components/svg/svg";
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 const UserLogin = () => {
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const { login, loading } = useUserLogin();
 
@@ -47,10 +48,10 @@ const UserLogin = () => {
             />
           </label>
 
-          <label className="input input-bordered flex items-center gap-2">
+          <label className="input input-bordered flex items-center gap-2 relative">
             <KeyIcon />
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               value={form.password}
               onChange={handleChange}
@@ -58,6 +59,13 @@ const UserLogin = () => {
               placeholder="Password"
               required
             />
+            <button
+              type="button"
+              className="absolute right-3"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEye /> : <FaEyeSlash />}
+            </button>
           </label>
 
           <button

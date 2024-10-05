@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const trainingSchema = new mongoose.Schema(
   {
+    day: { type: Number, required: true },
     title: { type: String, required: true },
-    description: { type: String, required: true },
-    week: { type: Number, required: true },
-    exercises: [{ type: String }],
-    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    description: [{ type: String, required: true }],
+    trainingVideoUrl: [{ type: String }],
+    finishedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );

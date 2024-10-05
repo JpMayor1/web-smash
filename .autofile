@@ -1,0 +1,7 @@
+$ taskill /F /IM node.exe
+
+# run frontend
++ cd frontend && npm run dev
+
+# run backend
++ cd backend && npm run dev

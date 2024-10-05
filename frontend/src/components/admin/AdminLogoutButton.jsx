@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 import useAdminLogout from "../../hooks/admin/useAdminLogout";
 
-const AdminLogoutButton = () => {
+const AdminLogoutButton = ({ classNames }) => {
   const { logout, loading } = useAdminLogout();
 
   const handleLogout = () => {
@@ -9,7 +10,7 @@ const AdminLogoutButton = () => {
   return (
     <button
       onClick={handleLogout}
-      className="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary/80 transition duration-300"
+      className={`w-full bg-red text-white py-2 px-4 rounded-lg hover:bg-red/80 transition duration-300 ${classNames}`}
       disabled={loading}
     >
       {loading ? (

@@ -1,14 +1,13 @@
-import AdminLogoutButton from "../../components/admin/AdminLogoutButton";
-import { useAuthStore } from "../../stores/useAuthStore";
+import AdminNavBar from "../../components/admin/AdminNavBar";
+import bg from "../../assets/web-smash-bg.jpg";
 
 const AdminHome = () => {
-  const authUser = useAuthStore((state) => state.authUser);
   return (
-    <div>
-      <p>Hello! {authUser.firstName + " " + authUser.lastName}</p>
-      <p>Email: {authUser.email}</p>
-      <p>Role: {authUser.role}</p>
-      <AdminLogoutButton />
+    <div
+      className="bg-cover bg-no-repeat bg-center h-screen w-screen flex flex-col items-center justify-start"
+      style={{ backgroundImage: `url(${bg})` }}
+    >
+      <AdminNavBar />
     </div>
   );
 };

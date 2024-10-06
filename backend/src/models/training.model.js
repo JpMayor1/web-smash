@@ -4,8 +4,8 @@ const trainingSchema = new mongoose.Schema(
   {
     day: { type: Number, required: true },
     title: { type: String, required: true },
-    description: [{ type: String, required: true }],
-    trainingVideoUrl: [{ type: String }],
+    descriptions: [{ type: String, required: true }],
+    trainingVideoUrl: { type: String },
     finishedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }

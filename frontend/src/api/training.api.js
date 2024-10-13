@@ -25,10 +25,39 @@ export const getTrainingByIdApi = async (id) => {
 // Create a new training with a video file
 export const createTrainingApi = async (formData) => {
   const data = new FormData();
+
+  // Append basic fields
   data.append("day", formData.day);
   data.append("title", formData.title);
-  formData.descriptions.forEach((desc) => data.append("descriptions[]", desc));
-  data.append("trainingVideo", formData.trainingVideo);
+  data.append("gender", formData.gender);
+
+  // Append drills
+  formData.drills.forEach((drill, index) => {
+    // Append each drill's fields
+    data.append(`drills[${index}][drillName]`, drill.drillName || "");
+    data.append(`drills[${index}][whatToDo]`, drill.whatToDo || "");
+    data.append(`drills[${index}][focus]`, drill.focus || "");
+    data.append(`drills[${index}][repetitions]`, drill.repetitions || "");
+
+    // Append each "how to do it" item within the drill
+    drill.howToDoIt.forEach((howToDo, howIndex) => {
+      data.append(`drills[${index}][howToDoIt][${howIndex}]`, howToDo || "");
+    });
+
+    // Append the video file under 'trainingVideo' key instead of nested field
+    if (drill.trainingVideo instanceof File) {
+      // Multer expects 'trainingVideo' key, not a nested one
+      data.append("trainingVideo", drill.trainingVideo);
+    } else {
+      console.warn(
+        `drill.trainingVideo for drill ${index} is not a File object.`
+      );
+    }
+
+    // Append video reference
+    data.append(`drills[${index}][videoReference]`, drill.videoReference || "");
+  });
+
   try {
     const response = await axiosInstance.post("/api/trainings/create", data, {
       headers: { "Content-Type": "multipart/form-data" },

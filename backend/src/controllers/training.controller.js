@@ -6,10 +6,10 @@ import path from "path";
 dotenv.config();
 
 export const createTraining = async (req, res) => {
-  const { day, title, drill, finishedUsers } = req.body;
+  const { day, title, drills, gender } = req.body;
 
   try {
-    const drillArray = Array.isArray(drill) ? drill : [drill];
+    const drillArray = Array.isArray(drills) ? drills : [drills];
 
     const updatedDrills = drillArray.map((d, index) => {
       const videoFile = req.files["trainingVideo"]?.[index];
@@ -25,7 +25,7 @@ export const createTraining = async (req, res) => {
       day,
       title,
       drill: updatedDrills,
-      finishedUsers,
+      gender,
     });
 
     await newTraining.save();
@@ -76,7 +76,7 @@ export const getTrainingById = async (req, res) => {
 
 export const updateTraining = async (req, res) => {
   const { id } = req.params;
-  const { day, title, drill, finishedUsers } = req.body;
+  const { day, title, drill, gender } = req.body;
 
   try {
     const training = await Training.findById(id);
@@ -98,7 +98,7 @@ export const updateTraining = async (req, res) => {
 
     training.day = day;
     training.title = title;
-    training.finishedUsers = finishedUsers;
+    training.gender = gender;
 
     const drillArray = Array.isArray(drill) ? drill : [drill];
 

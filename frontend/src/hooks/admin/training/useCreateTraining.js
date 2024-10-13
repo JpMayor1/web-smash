@@ -22,7 +22,7 @@ const useCreateTraining = () => {
       }
 
       const result = response.data;
-      addTraining(result);
+      addTraining(result.training);
       toast.success("Training created successfully.");
     } catch (error) {
       if (axios.isAxiosError(error)) {

@@ -18,10 +18,10 @@ export const usetrainingStore = create(
           ),
         })),
 
-      deleteTraining: (trainingId) =>
+      deleteTrainingState: (trainingId) =>
         set((state) => ({
           trainings: state.trainings.filter(
-            (training) => training.id !== trainingId
+            (training) => training._id !== trainingId
           ),
         })),
     }),

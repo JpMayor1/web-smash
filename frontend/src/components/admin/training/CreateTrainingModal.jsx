@@ -11,6 +11,8 @@ const CreateTrainingModal = () => {
     drills: [],
   });
 
+  const { createTraining, loading } = useCreateTraining();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -30,7 +32,7 @@ const CreateTrainingModal = () => {
           howToDoIt: [""],
           focus: "",
           repetitions: "",
-          trainingVideo: null, // Initialize as null for file upload
+          trainingVideo: null,
           videoReference: "",
         },
       ],
@@ -93,19 +95,25 @@ const CreateTrainingModal = () => {
     }));
   };
 
-  const { createTraining, loading } = useCreateTraining();
-
   const submitCreateTraining = async (e) => {
     e.preventDefault();
-    await createTraining(formData);
-    setOpenModal(false);
+    const success = await createTraining(formData);
+    if (success) {
+      setOpenModal(false);
+      setFormData({
+        day: "",
+        title: "",
+        gender: "male",
+        drills: [],
+      });
+    }
   };
 
   return (
     <>
       <div className="bg-white shadow-md rounded-lg p-4 flex justify-center items-center min-h-52 h-full">
         <button
-          className="bg-primary text-white px-12 py-10 rounded-full hover:bg-primary/90"
+          className="bg-primary text-white text-2xl px-12 py-10 rounded-full hover:bg-primary/90"
           onClick={() => setOpenModal(true)}
         >
           +
@@ -339,10 +347,14 @@ const CreateTrainingModal = () => {
           <div className="w-full flex justify-end">
             <button
               type="submit"
-              className="bg-primary text-white px-4 py-2 rounded-md mt-4"
+              className="bg-primary text-white px-4 py-2 rounded-md mt-4 min-w-40"
               disabled={loading}
             >
-              {loading ? "Creating..." : "Create Training"}
+              {loading ? (
+                <span className="loading loading-spinner loading-xs"></span>
+              ) : (
+                "Create Training"
+              )}
             </button>
           </div>
         </form>

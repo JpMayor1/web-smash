@@ -1,26 +1,25 @@
 import { useState } from "react";
-import { createTrainingApi } from "../../../api/training.api";
+import { deleteTrainingApi } from "../../../api/training.api";
 import { usetrainingStore } from "../../../stores/useTrainingStore";
 import toast from "react-hot-toast";
 import axios from "axios";
 
-const useCreateTraining = () => {
+const useDeleteTraining = () => {
   const [loading, setLoading] = useState(false);
-  const { addTraining } = usetrainingStore();
+  const { deleteTrainingState } = usetrainingStore();
 
-  const createTraining = async (formData) => {
+  const deleteTraining = async (trainingId) => {
     setLoading(true);
 
     try {
-      const response = await createTrainingApi(formData);
+      const response = await deleteTrainingApi(trainingId);
 
       if (response.error) {
         throw new Error(response.error);
       }
 
-      const result = response.data;
-      addTraining(result.training);
-      toast.success("Training created successfully.");
+      deleteTrainingState(trainingId);
+      toast.success("Training deleted successfully.");
       return true;
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -32,11 +31,11 @@ const useCreateTraining = () => {
           toast.error(error.response.data.error);
           return false;
         } else {
-          toast.error("An error occurred while creating trainings.");
+          toast.error("An error occurred while deleting the training.");
           return false;
         }
       } else {
-        toast.error("An error occurred while creating trainings.");
+        toast.error("An error occurred while deleting the training.");
         return false;
       }
     } finally {
@@ -44,7 +43,7 @@ const useCreateTraining = () => {
     }
   };
 
-  return { createTraining, loading };
+  return { deleteTraining, loading };
 };
 
-export default useCreateTraining;
+export default useDeleteTraining;

@@ -1,4 +1,6 @@
 import CreateTrainingModal from "./CreateTrainingModal";
+import DeleteTrainingModal from "./DeleteTrainingModal";
+import UpdateTrainingModal from "./UpdateTrainingModal";
 
 const TrainingsList = ({ trainings }) => {
   return (
@@ -25,12 +27,8 @@ const TrainingsList = ({ trainings }) => {
             <button className="bg-primary/90 text-white px-4 py-1 rounded hover:bg-primary">
               View
             </button>
-            <button className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600">
-              Edit
-            </button>
-            <button className="bg-red/90 text-white px-4 py-1 rounded hover:bg-red">
-              Delete
-            </button>
+            <UpdateTrainingModal training={training} />
+            <DeleteTrainingModal training={training} />
           </div>
         </div>
       ))}

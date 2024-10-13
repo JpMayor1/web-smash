@@ -6,7 +6,7 @@ import {
   updateTraining,
   deleteTraining,
 } from "../controllers/training.controller.js";
-import uploadVideo from "../utils/fileUpload.js";
+import { uploadVideo } from "../middleware/uploadVideo.js";
 
 const router = express.Router();
 

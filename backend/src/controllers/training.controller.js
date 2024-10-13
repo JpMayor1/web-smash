@@ -6,31 +6,53 @@ import path from "path";
 dotenv.config();
 
 export const createTraining = async (req, res) => {
-  const { day, title, descriptions } = req.body;
-
-  const trainingVideoUrl = req.trainingVideoUrl || null;
+  const { day, title, drill, finishedUsers } = req.body;
 
   try {
+    const drillArray = Array.isArray(drill) ? drill : [drill];
+
+    const updatedDrills = drillArray.map((d, index) => {
+      const videoFile = req.files["trainingVideo"]?.[index];
+      const trainingVideoUrl = videoFile ? videoFile.filename : "";
+
+      return {
+        ...d,
+        trainingVideoUrl,
+      };
+    });
+
     const newTraining = new Training({
       day,
       title,
-      descriptions,
-      trainingVideoUrl,
+      drill: updatedDrills,
+      finishedUsers,
     });
 
     await newTraining.save();
-    res.status(201).json(newTraining);
+
+    return res.status(201).json({
+      message: "Training created successfully!",
+      training: newTraining,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Error creating training", error });
+    console.error("Error creating training:", error);
+    return res.status(500).json({
+      message: "Failed to create training",
+      error: error.message,
+    });
   }
 };
 
 export const getAllTrainings = async (req, res) => {
   try {
     const trainings = await Training.find();
-    res.status(200).json(trainings);
+    return res.status(200).json(trainings);
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving trainings", error });
+    console.error("Error fetching trainings:", error);
+    return res.status(500).json({
+      message: "Failed to fetch trainings",
+      error: error.message,
+    });
   }
 };
 
@@ -39,89 +61,100 @@ export const getTrainingById = async (req, res) => {
 
   try {
     const training = await Training.findById(id);
-
     if (!training) {
       return res.status(404).json({ message: "Training not found" });
     }
-
-    res.status(200).json(training);
+    return res.status(200).json(training);
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving training", error });
+    console.error("Error fetching training by ID:", error);
+    return res.status(500).json({
+      message: "Failed to fetch training",
+      error: error.message,
+    });
   }
 };
 
 export const updateTraining = async (req, res) => {
   const { id } = req.params;
-  const { day, title, descriptions } = req.body;
+  const { day, title, drill, finishedUsers } = req.body;
 
   try {
     const training = await Training.findById(id);
-
     if (!training) {
       return res.status(404).json({ message: "Training not found" });
     }
 
-    if (day) training.day = day;
-    if (title) training.title = title;
-
-    if (Array.isArray(descriptions)) {
-      training.descriptions = descriptions;
-    } else if (descriptions) {
-      training.descriptions.push(descriptions);
-    }
-
-    if (req.trainingVideoUrl) {
-      const currentVideoFilePath = path.join(
-        process.cwd(),
-        "public/videos",
-        training.trainingVideoUrl
-      );
-
-      fs.unlink(currentVideoFilePath, (err) => {
-        if (err) {
-          console.error("Error deleting video file:", err);
+    if (req.files && req.files["trainingVideo"]) {
+      training.drill.forEach((d) => {
+        if (d.trainingVideoUrl) {
+          const oldVideoPath = path.join("public/videos", d.trainingVideoUrl);
+          fs.unlink(oldVideoPath, (err) => {
+            if (err)
+              console.error(`Failed to delete video: ${oldVideoPath}`, err);
+          });
         }
       });
-
-      training.trainingVideoUrl = req.trainingVideoUrl;
     }
 
-    const updatedTraining = await training.save();
-    res.status(200).json({
-      message: "Training updated successfully",
-      training: updatedTraining,
+    training.day = day;
+    training.title = title;
+    training.finishedUsers = finishedUsers;
+
+    const drillArray = Array.isArray(drill) ? drill : [drill];
+
+    const updatedDrills = drillArray.map((d, index) => {
+      const videoFile = req.files["trainingVideo"]?.[index];
+      const trainingVideoUrl = videoFile ? videoFile.filename : "";
+
+      return {
+        ...d,
+        trainingVideoUrl,
+      };
+    });
+
+    training.drill = updatedDrills;
+
+    await training.save();
+
+    return res.status(200).json({
+      message: "Training updated successfully!",
+      training,
     });
   } catch (error) {
-    res.status(500).json({ message: "Error updating training", error });
+    console.error("Error updating training:", error);
+    return res.status(500).json({
+      message: "Failed to update training",
+      error: error.message,
+    });
   }
 };
 
 export const deleteTraining = async (req, res) => {
-  try {
-    const trainingId = req.params.id;
+  const { id } = req.params;
 
-    const training = await Training.findById(trainingId);
+  try {
+    const training = await Training.findById(id);
     if (!training) {
       return res.status(404).json({ message: "Training not found" });
     }
 
-    const videoFilePath = path.join(
-      process.cwd(),
-      "public/videos",
-      training.trainingVideoUrl
-    );
-
-    await Training.findByIdAndDelete(trainingId);
-
-    fs.unlink(videoFilePath, (err) => {
-      if (err) {
-        console.error("Error deleting video file:", err);
+    training.drill.forEach((d) => {
+      if (d.trainingVideoUrl) {
+        const videoPath = path.join("public/videos", d.trainingVideoUrl);
+        fs.unlink(videoPath, (err) => {
+          if (err) console.error(`Failed to delete video: ${videoPath}`, err);
+        });
       }
     });
 
-    return res.status(204).send();
+    await Training.findByIdAndDelete(id);
+
+    return res.status(200).json({ message: "Training deleted successfully!" });
   } catch (error) {
     console.error("Error deleting training:", error);
-    return res.status(500).json({ message: "Error deleting training", error });
+    return res.status(500).json({
+      message: "Failed to delete training",
+      error: error.message,
+    });
   }
 };

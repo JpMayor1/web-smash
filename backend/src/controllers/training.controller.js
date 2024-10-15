@@ -5,44 +5,6 @@ import path from "path";
 
 dotenv.config();
 
-export const createTraining = async (req, res) => {
-  const { day, title, drills, gender } = req.body;
-
-  try {
-    const drillArray = Array.isArray(drills) ? drills : [drills];
-
-    const updatedDrills = drillArray.map((d, index) => {
-      const videoFile = req.files["trainingVideo"]?.[index];
-      const trainingVideoUrl = videoFile ? videoFile.filename : "";
-
-      return {
-        ...d,
-        trainingVideoUrl,
-      };
-    });
-
-    const newTraining = new Training({
-      day,
-      title,
-      drill: updatedDrills,
-      gender,
-    });
-
-    await newTraining.save();
-
-    return res.status(201).json({
-      message: "Training created successfully!",
-      training: newTraining,
-    });
-  } catch (error) {
-    console.error("Error creating training:", error);
-    return res.status(500).json({
-      message: "Failed to create training",
-      error: error.message,
-    });
-  }
-};
-
 export const getAllTrainings = async (req, res) => {
   try {
     const trainings = await Training.find();
@@ -74,9 +36,49 @@ export const getTrainingById = async (req, res) => {
   }
 };
 
+export const createTraining = async (req, res) => {
+  const { day, title, drills, gender } = req.body;
+
+  try {
+    const drillArray = Array.isArray(drills) ? drills : [drills];
+
+    const updatedDrills = drillArray.map((d, index) => {
+      console.log("Training Video: ", req.files?.["trainingVideo"]?.[index]);
+      const videoFile = req.files?.["trainingVideo"]?.[index];
+      console.log("videoFile", videoFile);
+      const trainingVideoUrl = videoFile ? videoFile.filename : "";
+
+      return {
+        ...d,
+        trainingVideoUrl,
+      };
+    });
+
+    const newTraining = new Training({
+      day,
+      title,
+      drills: updatedDrills,
+      gender,
+    });
+
+    await newTraining.save();
+
+    return res.status(201).json({
+      message: "Training created successfully!",
+      training: newTraining,
+    });
+  } catch (error) {
+    console.error("Error creating training:", error);
+    return res.status(500).json({
+      message: "Failed to create training",
+      error: error.message,
+    });
+  }
+};
+
 export const updateTraining = async (req, res) => {
   const { id } = req.params;
-  const { day, title, drill, gender } = req.body;
+  const { day, title, drills, gender } = req.body;
 
   try {
     const training = await Training.findById(id);
@@ -85,7 +87,7 @@ export const updateTraining = async (req, res) => {
     }
 
     if (req.files && req.files["trainingVideo"]) {
-      training.drill.forEach((d) => {
+      training.drills.forEach((d) => {
         if (d.trainingVideoUrl) {
           const oldVideoPath = path.join("public/videos", d.trainingVideoUrl);
           fs.unlink(oldVideoPath, (err) => {
@@ -100,11 +102,13 @@ export const updateTraining = async (req, res) => {
     training.title = title;
     training.gender = gender;
 
-    const drillArray = Array.isArray(drill) ? drill : [drill];
+    const drillArray = Array.isArray(drills) ? drills : [drills];
 
     const updatedDrills = drillArray.map((d, index) => {
-      const videoFile = req.files["trainingVideo"]?.[index];
-      const trainingVideoUrl = videoFile ? videoFile.filename : "";
+      const videoFile = req.files?.["trainingVideo"]?.[index];
+      const trainingVideoUrl = videoFile
+        ? videoFile.filename
+        : d.trainingVideoUrl;
 
       return {
         ...d,
@@ -112,7 +116,7 @@ export const updateTraining = async (req, res) => {
       };
     });
 
-    training.drill = updatedDrills;
+    training.drills = updatedDrills;
 
     await training.save();
 
@@ -138,7 +142,7 @@ export const deleteTraining = async (req, res) => {
       return res.status(404).json({ message: "Training not found" });
     }
 
-    training.drill.forEach((d) => {
+    training.drills.forEach((d) => {
       if (d.trainingVideoUrl) {
         const videoPath = path.join("public/videos", d.trainingVideoUrl);
         fs.unlink(videoPath, (err) => {

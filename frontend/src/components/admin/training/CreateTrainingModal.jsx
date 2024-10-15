@@ -172,7 +172,7 @@ const CreateTrainingModal = () => {
           {/* Gender Selection */}
           <label className="form-control w-full">
             <div className="label">
-              <span className="label-text text-white">Gender:</span>
+              <span className="label-text text-white">For:</span>
             </div>
             <select
               name="gender"

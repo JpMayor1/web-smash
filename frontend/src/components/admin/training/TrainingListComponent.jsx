@@ -18,7 +18,7 @@ const TrainingsList = ({ trainings }) => {
               {training.title}
             </h3>
             <ul className=" text-black/90 text-sm">
-              {training.drill.map((d, i) => (
+              {training.drills.map((d, i) => (
                 <li key={i}>• {d.drillName}</li>
               ))}
             </ul>

@@ -14,7 +14,7 @@ export const usetrainingStore = create(
       updateTraining: (updatedTraining) =>
         set((state) => ({
           trainings: state.trainings.map((training) =>
-            training.id === updatedTraining.id ? updatedTraining : training
+            training._id === updatedTraining._id ? updatedTraining : training
           ),
         })),
 

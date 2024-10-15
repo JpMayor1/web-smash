@@ -71,15 +71,48 @@ export const createTrainingApi = async (formData) => {
 
 // Update an existing training by ID
 export const updateTrainingApi = async (id, formData) => {
+  const data = new FormData();
+
+  // Append basic fields
+  data.append("day", formData.day);
+  data.append("title", formData.title);
+  data.append("gender", formData.gender);
+
+  // Append drills
+  formData.drills.forEach((drill, index) => {
+    // Append each drill's fields
+    data.append(`drills[${index}][drillName]`, drill.drillName || "");
+    data.append(`drills[${index}][whatToDo]`, drill.whatToDo || "");
+    data.append(`drills[${index}][focus]`, drill.focus || "");
+    data.append(`drills[${index}][repetitions]`, drill.repetitions || "");
+
+    // Append each "how to do it" item within the drill
+    drill.howToDoIt.forEach((howToDo, howIndex) => {
+      data.append(`drills[${index}][howToDoIt][${howIndex}]`, howToDo || "");
+    });
+
+    // Append the video file under 'trainingVideo' key instead of nested field
+    if (drill.trainingVideo instanceof File) {
+      data.append("trainingVideo", drill.trainingVideo);
+    } else {
+      console.warn(
+        `drill.trainingVideo for drill ${index} is not a File object.`
+      );
+    }
+
+    // Append video reference
+    data.append(`drills[${index}][videoReference]`, drill.videoReference || "");
+  });
+
   try {
     const response = await axiosInstance.put(
       `/api/trainings/update/${id}`,
-      formData,
+      data,
       {
         headers: { "Content-Type": "multipart/form-data" },
       }
     );
-    return response.data;
+    return response;
   } catch (error) {
     console.error(`Error updating training with ID ${id}:`, error);
     throw error;

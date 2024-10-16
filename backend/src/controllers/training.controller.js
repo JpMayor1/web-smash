@@ -42,14 +42,17 @@ export const createTraining = async (req, res) => {
   try {
     const drillArray = Array.isArray(drills) ? drills : [drills];
 
-    const updatedDrills = drillArray.map((d, index) => {
-      console.log("Training Video: ", req.files?.["trainingVideo"]?.[index]);
-      const videoFile = req.files?.["trainingVideo"]?.[index];
-      console.log("videoFile", videoFile);
+    const updatedDrills = drillArray.map((drill, index) => {
+      const videoFieldName = drill.trainingVideo;
+
+      const videoFile = req.files.find(
+        (file) => file.originalname === videoFieldName
+      );
+
       const trainingVideoUrl = videoFile ? videoFile.filename : "";
 
       return {
-        ...d,
+        ...drill,
         trainingVideoUrl,
       };
     });
@@ -86,32 +89,33 @@ export const updateTraining = async (req, res) => {
       return res.status(404).json({ message: "Training not found" });
     }
 
-    if (req.files && req.files["trainingVideo"]) {
-      training.drills.forEach((d) => {
-        if (d.trainingVideoUrl) {
-          const oldVideoPath = path.join("public/videos", d.trainingVideoUrl);
-          fs.unlink(oldVideoPath, (err) => {
-            if (err)
-              console.error(`Failed to delete video: ${oldVideoPath}`, err);
-          });
-        }
-      });
-    }
-
     training.day = day;
     training.title = title;
     training.gender = gender;
 
+    const files = req.files || [];
+
     const drillArray = Array.isArray(drills) ? drills : [drills];
 
-    const updatedDrills = drillArray.map((d, index) => {
-      const videoFile = req.files?.["trainingVideo"]?.[index];
+    const updatedDrills = drillArray.map((drill, index) => {
+      const videoFile = files.find(
+        (file) => file.originalname === drill.trainingVideo
+      );
       const trainingVideoUrl = videoFile
         ? videoFile.filename
-        : d.trainingVideoUrl;
+        : drill.trainingVideoUrl;
+
+      if (videoFile && drill.trainingVideoUrl) {
+        const oldVideoPath = path.join("public/videos", drill.trainingVideoUrl);
+        fs.unlink(oldVideoPath, (err) => {
+          if (err) {
+            console.error(`Failed to delete old video: ${oldVideoPath}`, err);
+          }
+        });
+      }
 
       return {
-        ...d,
+        ...drill,
         trainingVideoUrl,
       };
     });

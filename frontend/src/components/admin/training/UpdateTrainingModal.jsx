@@ -99,13 +99,13 @@ const UpdateTrainingModal = ({ training }) => {
     e.preventDefault();
     const success = await updateTrainingData(training._id, formData);
     if (success) {
-      setOpenModal(false);
       setFormData({
         day: "",
         title: "",
         gender: "male",
         drills: [],
       });
+      setOpenModal(false);
     }
   };
 

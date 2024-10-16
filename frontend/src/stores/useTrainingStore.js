@@ -11,10 +11,10 @@ export const usetrainingStore = create(
       addTraining: (newTraining) =>
         set((state) => ({ trainings: [...state.trainings, newTraining] })),
 
-      updateTraining: (updatedTraining) =>
+      updateTraining: (id, updatedTraining) =>
         set((state) => ({
           trainings: state.trainings.map((training) =>
-            training._id === updatedTraining._id ? updatedTraining : training
+            training._id === id ? updatedTraining : training
           ),
         })),
 

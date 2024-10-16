@@ -27,4 +27,4 @@ export const uploadVideo = multer({
     }
     cb(new Error("Error: Video file type not supported!"));
   },
-}).fields([{ name: "trainingVideo", maxCount: 10 }]);
+}).any();

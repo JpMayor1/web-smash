@@ -18,8 +18,7 @@ const useUpdateTraining = () => {
         throw new Error(response.error);
       }
 
-      console.log("Resut: ", response.data);
-      updateTraining(response.data.training);
+      updateTraining(trainingId, response.data.training);
       toast.success("Training updated successfully.");
       return true;
     } catch (error) {

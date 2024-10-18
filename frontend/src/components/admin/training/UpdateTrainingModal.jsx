@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import useUpdateTraining from "../../../hooks/admin/training/useUpdateTraining";
+import baseURL from "../../../axios/baseUrl";
 
 const UpdateTrainingModal = ({ training }) => {
   const [openModal, setOpenModal] = useState(false);
@@ -99,14 +100,19 @@ const UpdateTrainingModal = ({ training }) => {
     e.preventDefault();
     const success = await updateTrainingData(training._id, formData);
     if (success) {
-      setFormData({
-        day: "",
-        title: "",
-        gender: "male",
-        drills: [],
-      });
       setOpenModal(false);
     }
+  };
+
+  const cancelUpdateTraining = () => {
+    setFormData({
+      day: training.day || "",
+      title: training.title || "",
+      gender: training.gender || "male",
+      drills: training.drills || [],
+    });
+
+    setOpenModal(false);
   };
 
   return (
@@ -165,22 +171,6 @@ const UpdateTrainingModal = ({ training }) => {
               placeholder="Training Title"
               required
             />
-          </label>
-
-          {/* Gender Selection */}
-          <label className="form-control w-full">
-            <div className="label">
-              <span className="label-text text-white">Gender:</span>
-            </div>
-            <select
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              className="bg-white py-3 px-4 rounded-md w-full text-black"
-            >
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
           </label>
 
           {/* Drills Section */}
@@ -305,6 +295,19 @@ const UpdateTrainingModal = ({ training }) => {
                 <div className="label">
                   <span className="label-text text-white">Training Video:</span>
                 </div>
+                <video
+                  className="w-full h-full object-cover mb-3"
+                  src={
+                    formData.drills[index]?.trainingVideo
+                      ? URL.createObjectURL(
+                          formData.drills[index].trainingVideo
+                        )
+                      : drill.trainingVideoUrl
+                      ? `${baseURL}/videos/${drill.trainingVideoUrl}`
+                      : ""
+                  }
+                  controls
+                />
                 <input
                   type="file"
                   onChange={(e) => handleVideoChange(index, e)}
@@ -354,6 +357,17 @@ const UpdateTrainingModal = ({ training }) => {
             ) : (
               "Update Training"
             )}
+          </button>
+
+          <button
+            type="button"
+            className={`bg-red text-white p-2 rounded-md w-full mt-4 ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={loading}
+            onClick={cancelUpdateTraining}
+          >
+            Cancel
           </button>
         </form>
       </div>

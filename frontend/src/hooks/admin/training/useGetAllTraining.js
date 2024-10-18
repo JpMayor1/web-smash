@@ -1,44 +1,27 @@
-import { useState } from "react";
-import toast from "react-hot-toast";
-import axios from "axios";
+import { useCallback, useState } from "react";
 import { usetrainingStore } from "../../../stores/useTrainingStore";
 import { getAllTrainingApi } from "../../../api/training.api";
 
 const useGetAllTraining = () => {
   const [loading, setLoading] = useState(false);
-  const setTrainingStore = usetrainingStore((state) => state.setTrainings);
+  const [error, setError] = useState(null);
+  const { setTrainings } = usetrainingStore();
 
-  const getTrainings = async () => {
+  const getTrainings = useCallback(async () => {
     setLoading(true);
+    setError(null);
     try {
       const response = await getAllTrainingApi();
-
-      if (response.error) {
-        throw new Error(response.error);
-      }
-
-      const result = response.data;
-      setTrainingStore(result);
+      setTrainings(response.data);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.error
-        ) {
-          toast.error(error.response.data.error);
-        } else {
-          toast.error("An error occurred while fetching trainings.");
-        }
-      } else {
-        toast.error("An error occurred while fetching trainings.");
-      }
+      console.error("Error fetching trainings:", error);
+      setError("Failed to load trainings. Please try again.");
     } finally {
       setLoading(false);
     }
-  };
+  }, [setTrainings]);
 
-  return { loading, getTrainings };
+  return { loading, error, getTrainings };
 };
 
 export default useGetAllTraining;

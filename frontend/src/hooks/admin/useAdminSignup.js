@@ -39,14 +39,6 @@ const useAdminSignup = () => {
     confirmPassword,
     secretKey
   ) => {
-    console.log(
-      firstName,
-      lastName,
-      email,
-      password,
-      confirmPassword,
-      secretKey
-    );
     const success = handleInputErrors(
       firstName,
       lastName,

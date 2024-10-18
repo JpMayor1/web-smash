@@ -2,12 +2,12 @@ import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import useCreateTraining from "../../../hooks/admin/training/useCreateTraining";
 
-const CreateTrainingModal = () => {
+const CreateTrainingModal = ({ gender }) => {
   const [openModal, setOpenModal] = useState(false);
   const [formData, setFormData] = useState({
     day: "",
     title: "",
-    gender: "male",
+    gender: gender,
     drills: [],
   });
 
@@ -67,7 +67,7 @@ const CreateTrainingModal = () => {
 
   const handleAddHowToDoIt = (drillIndex) => {
     const updatedDrills = [...formData.drills];
-    updatedDrills[drillIndex].howToDoIt.push(""); // Add a new empty howToDoIt
+    updatedDrills[drillIndex].howToDoIt.push("");
     setFormData((prevData) => ({
       ...prevData,
       drills: updatedDrills,
@@ -86,9 +86,9 @@ const CreateTrainingModal = () => {
   };
 
   const handleVideoChange = (drillIndex, e) => {
-    const file = e.target.files[0]; // Get the uploaded file
+    const file = e.target.files[0];
     const updatedDrills = [...formData.drills];
-    updatedDrills[drillIndex].trainingVideo = file; // Update the state with the file
+    updatedDrills[drillIndex].trainingVideo = file;
     setFormData((prevData) => ({
       ...prevData,
       drills: updatedDrills,
@@ -103,7 +103,7 @@ const CreateTrainingModal = () => {
       setFormData({
         day: "",
         title: "",
-        gender: "male",
+        gender: "",
         drills: [],
       });
     }
@@ -167,22 +167,6 @@ const CreateTrainingModal = () => {
               placeholder="Training Title"
               required
             />
-          </label>
-
-          {/* Gender Selection */}
-          <label className="form-control w-full">
-            <div className="label">
-              <span className="label-text text-white">For:</span>
-            </div>
-            <select
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              className="bg-white py-3 px-4 rounded-md w-full text-black"
-            >
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
           </label>
 
           {/* Drills Section */}
@@ -308,8 +292,8 @@ const CreateTrainingModal = () => {
                   <span className="label-text text-white">Training Video:</span>
                 </div>
                 <input
-                  type="file" // Change to file input for video upload
-                  accept="video/*" // Accept only video files
+                  type="file"
+                  accept="video/*"
                   name="trainingVideo"
                   onChange={(e) => handleVideoChange(index, e)}
                   className="bg-white py-3 px-4 rounded-md w-full text-black"

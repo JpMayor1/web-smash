@@ -6,10 +6,12 @@ import ErrorPage from "./pages/ErrorPage";
 import IsUserRoute from "./protectedRoute/IsUserRoute";
 import UserHome from "./pages/user/UserHome";
 import IsAdminRote from "./protectedRoute/isAdminRote";
-import AdminHome from "./pages/admin/AdminHome";
+import Conditioning from "./pages/admin/Conditioning";
 import UserSignup from "./pages/auth/UserSignup";
 import AdminLogin from "./pages/auth/AdminLogin";
 import AdminSignup from "./pages/auth/AdminSignup";
+import MaleTrainings from "./pages/admin/MaleTrainings";
+import FemaleTrainings from "./pages/admin/FemaleTrainings";
 
 const router = createBrowserRouter([
   {
@@ -50,7 +52,15 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/admin",
-        element: <AdminHome />,
+        element: <Conditioning />,
+      },
+      {
+        path: "/admin/trainings/male",
+        element: <MaleTrainings />,
+      },
+      {
+        path: "/admin/trainings/female",
+        element: <FemaleTrainings />,
       },
     ],
   },

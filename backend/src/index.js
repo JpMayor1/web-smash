@@ -11,6 +11,7 @@ import connectToMongoDB from "./db/db.connect.js";
 import userAuthRouter from "./routers/auth.user.route.js";
 import adminAuthRouter from "./routers/auth.admin.route.js";
 import trainingRouter from "./routers/training.route.js";
+import conditioningRouter from "./routers/conditioning.route.js";
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth/user", userAuthRouter);
 app.use("/api/auth/admin", adminAuthRouter);
 app.use("/api/trainings", trainingRouter);
+app.use("/api/conditionings", conditioningRouter);
 
 app.use("*", (req, res, next) => {
   res.status(404).json({ message: "Route not found" });

@@ -12,6 +12,8 @@ import AdminLogin from "./pages/auth/AdminLogin";
 import AdminSignup from "./pages/auth/AdminSignup";
 import MaleTrainings from "./pages/admin/MaleTrainings";
 import FemaleTrainings from "./pages/admin/FemaleTrainings";
+import UserTrainings from "./pages/user/UserTrainings";
+import UserProfile from "./pages/user/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +45,14 @@ const router = createBrowserRouter([
       {
         path: "/user",
         element: <UserHome />,
+      },
+      {
+        path: "/user/trainings",
+        element: <UserTrainings />,
+      },
+      {
+        path: "/user/profile",
+        element: <UserProfile />,
       },
     ],
   },

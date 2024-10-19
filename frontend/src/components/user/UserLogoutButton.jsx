@@ -9,7 +9,7 @@ const UserLogoutButton = () => {
   return (
     <button
       onClick={handleLogout}
-      className="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary/80 transition duration-300"
+      className="w-full bg-red text-white py-2 px-4 rounded-lg hover:bg-red/80 transition duration-300"
       disabled={loading}
     >
       {loading ? (

@@ -8,7 +8,7 @@ const UserNavBar = () => {
   const hoverColor = "hover:text-blue-300";
 
   return (
-    <div className="w-full bg-black py-3 flex items-center justify-center">
+    <div className="w-full bg-black py-3 flex items-center justify-center z-30">
       <div className="w-full max-w-screen-sm flex items-center justify-evenly">
         {/* Home Link */}
         <Link

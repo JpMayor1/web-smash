@@ -12,6 +12,7 @@ export const userSignup = async (req, res) => {
       confirmPassword,
       gradeLevel,
       section,
+      gender,
     } = req.body;
 
     if (password !== confirmPassword) {
@@ -34,6 +35,7 @@ export const userSignup = async (req, res) => {
       password: hashedPassword,
       gradeLevel,
       section,
+      gender,
     });
 
     if (newUser) {
@@ -46,6 +48,7 @@ export const userSignup = async (req, res) => {
         email: newUser.email,
         gradeLevel: newUser.gradeLevel,
         section: newUser.section,
+        gender,
         role: "user",
       });
     } else {
@@ -81,6 +84,7 @@ export const userLogin = async (req, res) => {
       email: user.email,
       gradeLevel: user.gradeLevel,
       section: user.section,
+      gender: user.gender,
       role: "user",
     });
   } catch (error) {

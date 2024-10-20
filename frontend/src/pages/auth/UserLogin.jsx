@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useUserLogin from "../../hooks/user/useUserLogin";
-import bg from "../../assets/web-smash-bg.jpg";
 import { EmailIcon, KeyIcon } from "../../components/svg/svg";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 const UserLogin = () => {
@@ -26,10 +25,7 @@ const UserLogin = () => {
     login(form.email, form.password);
   };
   return (
-    <div
-      className="bg-cover bg-no-repeat bg-center h-screen w-screen flex items-center justify-center p-5"
-      style={{ backgroundImage: `url(${bg})` }}
-    >
+    <div className="h-full w-screen flex items-center justify-center overflow-y-auto p-3">
       <div className="w-full max-w-xl shadow-md bg-black/50 backdrop-blur-lg rounded-md p-6">
         <h2 className="text-4xl font-bold text-center mb-6 text-primary/90">
           Login

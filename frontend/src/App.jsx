@@ -14,6 +14,11 @@ import MaleTrainings from "./pages/admin/MaleTrainings";
 import FemaleTrainings from "./pages/admin/FemaleTrainings";
 import UserTrainings from "./pages/user/UserTrainings";
 import UserProfile from "./pages/user/UserProfile";
+import MaleTraining from "./pages/admin/training/MaleTraining";
+import FemaleTraining from "./pages/admin/training/FemaleTraining";
+import MaleUserTraining from "./pages/admin/training/MaleUserTraining";
+import FemaleUserTraining from "./pages/admin/training/FemaleUserTraining";
+import UserViewTraning from "./pages/user/training/UserViewTraining";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +56,10 @@ const router = createBrowserRouter([
         element: <UserTrainings />,
       },
       {
+        path: "/user/trainings/male/training/:trainingId",
+        element: <UserViewTraning />,
+      },
+      {
         path: "/user/profile",
         element: <UserProfile />,
       },
@@ -69,8 +78,24 @@ const router = createBrowserRouter([
         element: <MaleTrainings />,
       },
       {
+        path: "/admin/trainings/male/training/:trainingId",
+        element: <MaleTraining />,
+      },
+      {
+        path: "/admin/trainings/male/training/:trainingId/:userId",
+        element: <MaleUserTraining />,
+      },
+      {
         path: "/admin/trainings/female",
         element: <FemaleTrainings />,
+      },
+      {
+        path: "/admin/trainings/female/training/:trainingId",
+        element: <FemaleTraining />,
+      },
+      {
+        path: "/admin/trainings/female/training/:trainingId/:userId",
+        element: <FemaleUserTraining />,
       },
     ],
   },

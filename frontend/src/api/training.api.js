@@ -34,10 +34,10 @@ export const createTrainingApi = async (formData) => {
   // Append drills
   formData.drills.forEach((drill, index) => {
     // Append each drill's fields
-    data.append(`drills[${index}][drillName]`, drill.drillName || "");
-    data.append(`drills[${index}][whatToDo]`, drill.whatToDo || "");
-    data.append(`drills[${index}][focus]`, drill.focus || "");
-    data.append(`drills[${index}][repetitions]`, drill.repetitions || "");
+    data.append(`drills[${index}][drillName]`, drill.drillName || "N/A");
+    data.append(`drills[${index}][whatToDo]`, drill.whatToDo || "N/A");
+    data.append(`drills[${index}][focus]`, drill.focus || "N/A");
+    data.append(`drills[${index}][repetitions]`, drill.repetitions || "N/A");
 
     // Append each "how to do it" item within the drill
     drill.howToDoIt.forEach((howToDo, howIndex) => {
@@ -55,7 +55,10 @@ export const createTrainingApi = async (formData) => {
     }
 
     // Append video reference
-    data.append(`drills[${index}][videoReference]`, drill.videoReference || "");
+    data.append(
+      `drills[${index}][videoReference]`,
+      drill.videoReference || "N/A"
+    );
   });
 
   try {
@@ -125,6 +128,29 @@ export const deleteTrainingApi = async (id) => {
     return response.data;
   } catch (error) {
     console.error(`Error deleting training with ID ${id}:`, error);
+    throw error;
+  }
+};
+
+export const finishDrillApi = async (trainingId, drillId, file) => {
+  const data = new FormData();
+
+  if (file instanceof File) {
+    data.append("finishedUserVideo", file);
+    data.append("finishedUserVideoName", file.name);
+  }
+
+  try {
+    const response = await axiosInstance.put(
+      `/api/trainings/finish-drill/${trainingId}/${drillId}`,
+      data,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error(`Error finishing drill with ID ${drillId}:`, error);
     throw error;
   }
 };

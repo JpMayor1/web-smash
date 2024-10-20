@@ -11,7 +11,8 @@ function handleInputErrors(
   password,
   confirmPassword,
   gradeLevel,
-  section
+  section,
+  gender
 ) {
   if (
     !firstName ||
@@ -20,6 +21,7 @@ function handleInputErrors(
     !password ||
     !confirmPassword ||
     !section ||
+    !gender ||
     typeof gradeLevel !== "number" ||
     gradeLevel <= 0
   ) {
@@ -41,7 +43,8 @@ const useUserSignup = () => {
     password,
     confirmPassword,
     gradeLevel,
-    section
+    section,
+    gender
   ) => {
     const success = handleInputErrors(
       firstName,
@@ -50,7 +53,8 @@ const useUserSignup = () => {
       password,
       confirmPassword,
       gradeLevel,
-      section
+      section,
+      gender
     );
     if (!success) return;
     setLoading(true);
@@ -62,7 +66,8 @@ const useUserSignup = () => {
         password,
         confirmPassword,
         gradeLevel,
-        section
+        section,
+        gender
       );
       const result = res.data;
 

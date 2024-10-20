@@ -8,16 +8,7 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     gradeLevel: { type: Number, required: true },
     section: { type: String, required: true },
-    progress: [
-      {
-        training: { type: mongoose.Schema.Types.ObjectId, ref: "Training" },
-        status: {
-          type: String,
-          enum: ["Finished", "Unfinished"],
-          default: "Unfinished",
-        },
-      },
-    ],
+    gender: { type: String, enum: ["male", "female"], required: true },
   },
   { timestamps: true }
 );

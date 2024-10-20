@@ -5,8 +5,10 @@ import {
   getTrainingById,
   updateTraining,
   deleteTraining,
+  finishDrill,
 } from "../controllers/training.controller.js";
 import { uploadVideo } from "../middleware/uploadVideo.js";
+import userProtectRoute from "../middleware/user.protected.route.js";
 
 const router = express.Router();
 
@@ -15,5 +17,11 @@ router.get("/getAll", getAllTrainings);
 router.get("/getById/:id", getTrainingById);
 router.put("/update/:id", uploadVideo, updateTraining);
 router.delete("/delete/:id", deleteTraining);
+router.put(
+  "/finish-drill/:trainingId/:drillId",
+  userProtectRoute,
+  uploadVideo,
+  finishDrill
+);
 
 export default router;

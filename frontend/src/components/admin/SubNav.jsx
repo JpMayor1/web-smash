@@ -19,7 +19,7 @@ const SubNav = () => {
       <Link
         to="/admin/trainings/male"
         className={`px-3 md:px-6 py-2 ${
-          selectedTab === "/admin/trainings/male"
+          selectedTab.startsWith("/admin/trainings/male")
             ? "border-b border-white text-white"
             : "text-white/50"
         }`}
@@ -29,7 +29,7 @@ const SubNav = () => {
       <Link
         to="/admin/trainings/female"
         className={`px-3 md:px-6 py-2 bg-none ${
-          selectedTab === "/admin/trainings/female"
+          selectedTab.startsWith("/admin/trainings/female")
             ? "border-b border-white text-white"
             : "text-white/50"
         }`}

@@ -166,3 +166,55 @@ export const deleteTraining = async (req, res) => {
     });
   }
 };
+
+export const finishDrill = async (req, res) => {
+  const { finishedUserVideoName } = req.body;
+  const { trainingId, drillId } = req.params;
+  const userId = req.user._id;
+
+  try {
+    // Find the training by its ID
+    const training = await Training.findById(trainingId);
+
+    if (!training) {
+      return res.status(404).json({ error: "Training not found." });
+    }
+
+    // Find the drill within the training by its ID
+    const drill = training.drills.id(drillId);
+    if (!drill) {
+      return res.status(404).json({ error: "Drill not found." });
+    }
+
+    const videoFile = req.files.find(
+      (file) => file.originalname === finishedUserVideoName
+    );
+
+    const finishedUserVideoUrl = videoFile ? videoFile.filename : "";
+
+    // Check if the user already finished the drill
+    const alreadyFinished = drill.finishedUsers.some(
+      (finishedUser) => finishedUser.userId.toString() === userId
+    );
+
+    if (alreadyFinished) {
+      return res
+        .status(400)
+        .json({ error: "User has already finished this drill." });
+    }
+
+    drill.finishedUsers.push({
+      userId,
+      finishedUserVideoUrl,
+    });
+
+    await training.save();
+
+    return res
+      .status(200)
+      .json({ message: "Drill marked as finished successfully.", training });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Server error." });
+  }
+};

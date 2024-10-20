@@ -17,7 +17,8 @@ const SignupUserApi = async (
   password,
   confirmPassword,
   gradeLevel,
-  section
+  section,
+  gender
 ) => {
   const response = await axiosInstance.post("/api/auth/user/signup", {
     firstName,
@@ -27,6 +28,7 @@ const SignupUserApi = async (
     confirmPassword,
     gradeLevel,
     section,
+    gender,
   });
 
   return response;

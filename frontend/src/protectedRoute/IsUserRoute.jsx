@@ -34,7 +34,7 @@ const IsUserRoute = () => {
       className="bg-cover bg-no-repeat bg-center h-screen w-screen flex flex-col items-center overflow-hidden"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      <div className="h-full w-full flex items-center justify-center">
+      <div className="h-full w-full flex items-center justify-center overflow-y-auto">
         <Outlet />
       </div>
       <UserNavBar />

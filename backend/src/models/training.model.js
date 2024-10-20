@@ -8,6 +8,13 @@ const DrillSchema = new mongoose.Schema({
   repetitions: { type: String, required: true },
   trainingVideoUrl: { type: String, required: false },
   videoReference: { type: String, required: true },
+  finishedUsers: [
+    {
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      finishedUserVideoUrl: { type: String },
+      feedBack: { type: String },
+    },
+  ],
 });
 
 const trainingSchema = new mongoose.Schema(
@@ -16,7 +23,6 @@ const trainingSchema = new mongoose.Schema(
     title: { type: String, required: true },
     drills: [DrillSchema],
     gender: { type: String, enum: ["male", "female"], required: true },
-    finishedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );

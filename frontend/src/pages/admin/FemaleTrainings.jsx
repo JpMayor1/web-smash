@@ -3,6 +3,7 @@ import { usetrainingStore } from "../../stores/useTrainingStore";
 import UpdateTrainingModal from "../../components/admin/training/UpdateTrainingModal";
 import DeleteTrainingModal from "../../components/admin/training/DeleteTrainingModal";
 import CreateTrainingModal from "../../components/admin/training/CreateTrainingModal";
+import { Link } from "react-router-dom";
 
 const FemaleTrainings = () => {
   const { trainings } = usetrainingStore((state) => state);
@@ -26,16 +27,24 @@ const FemaleTrainings = () => {
               <h3 className="text-lg text-black font-semibold mb-2">
                 {training.title}
               </h3>
-              <ul className=" text-black/90 text-sm">
+              <ul className="list-disc text-black/90 text-sm pl-5">
                 {training.drills.map((d, i) => (
-                  <li key={i}>• {d.drillName}</li>
+                  <li
+                    key={i}
+                    className="text-black text-base break-words whitespace-normal"
+                  >
+                    {d.drillName}
+                  </li>
                 ))}
               </ul>
             </div>
             <div className="flex justify-between">
-              <button className="bg-primary/90 text-white px-4 py-1 rounded hover:bg-primary">
+              <Link
+                to={`/admin/trainings/female/training/${training._id}`}
+                className="bg-primary/90 text-white px-4 py-1 rounded hover:bg-primary flex items-center justify-center"
+              >
                 View
-              </button>
+              </Link>
               <UpdateTrainingModal training={training} />
               <DeleteTrainingModal training={training} />
             </div>

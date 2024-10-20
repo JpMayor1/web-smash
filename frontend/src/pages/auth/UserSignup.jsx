@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useUserSignup from "../../hooks/user/useUserSignup";
-import bg from "../../assets/web-smash-bg.jpg";
 import {
   EmailIcon,
   GraduationScrollIcon,
@@ -20,6 +19,7 @@ const UserSignup = () => {
     confirmPassword: "",
     gradeLevel: "",
     section: "",
+    gender: "male",
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -44,15 +44,13 @@ const UserSignup = () => {
       form.password,
       form.confirmPassword,
       Number(form.gradeLevel),
-      form.section
+      form.section,
+      form.gender
     );
   };
 
   return (
-    <div
-      className="bg-cover bg-no-repeat bg-center h-full w-screen flex items-center justify-center p-5"
-      style={{ backgroundImage: `url(${bg})` }}
-    >
+    <div className="h-full w-screen flex items-center md:items-start justify-center overflow-y-auto p-3">
       <div className="w-full max-w-xl shadow-md bg-black/50 backdrop-blur-lg rounded-md p-6">
         <h2 className="text-4xl font-bold text-center mb-6 text-primary/90">
           Sign up
@@ -162,6 +160,15 @@ const UserSignup = () => {
               required
             />
           </label>
+
+          <select
+            className="select select-bordered w-full"
+            name="gender"
+            onChange={handleChange}
+          >
+            <option value={"male"}>Male</option>
+            <option value={"female"}>Female</option>
+          </select>
 
           <button
             type="submit"

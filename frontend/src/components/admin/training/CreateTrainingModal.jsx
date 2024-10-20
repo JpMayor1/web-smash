@@ -7,7 +7,7 @@ const CreateTrainingModal = ({ gender }) => {
   const [formData, setFormData] = useState({
     day: "",
     title: "",
-    gender: gender,
+    gender: gender || "male",
     drills: [],
   });
 

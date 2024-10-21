@@ -107,24 +107,31 @@ const UserViewTraning = () => {
                   ) ? (
                     <>
                       <p className="font-semibold mt-3">Finished Video:</p>
-                      <div className="w-full h-auto flex items-center justify-center">
+                      <div className="w-full h-auto flex flex-col items-center justify-center">
                         {drill.finishedUsers.map((u) => {
                           if (
                             u.userId === authUser._id &&
                             u.finishedUserVideoUrl
                           ) {
                             return (
-                              <video
-                                key={u.userId}
-                                controls
-                                className="w-full max-w-screen-sm h-auto object-cover rounded-md shadow-sm my-2"
-                              >
-                                <source
-                                  src={`${baseURL}/videos/${u.finishedUserVideoUrl}`}
-                                  type="video/mp4"
-                                />
-                                Your browser does not support the video tag.
-                              </video>
+                              <div key={u.userId}>
+                                <video
+                                  controls
+                                  className="w-full max-w-screen-sm h-auto object-cover rounded-md shadow-sm my-2"
+                                >
+                                  <source
+                                    src={`${baseURL}/videos/${u.finishedUserVideoUrl}`}
+                                    type="video/mp4"
+                                  />
+                                  Your browser does not support the video tag.
+                                </video>
+                                {u.feedback && (
+                                  <>
+                                    <p className="font-semibold">Feedback:</p>
+                                    <p className="text-primary">{u.feedback}</p>
+                                  </>
+                                )}
+                              </div>
                             );
                           }
                           return null;

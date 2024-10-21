@@ -6,6 +6,7 @@ import {
   updateTraining,
   deleteTraining,
   finishDrill,
+  addFeedback,
 } from "../controllers/training.controller.js";
 import { uploadVideo } from "../middleware/uploadVideo.js";
 import userProtectRoute from "../middleware/user.protected.route.js";
@@ -23,5 +24,6 @@ router.put(
   uploadVideo,
   finishDrill
 );
+router.put("/addFeedback/:trainingId/:drillId/:userId", addFeedback);
 
 export default router;

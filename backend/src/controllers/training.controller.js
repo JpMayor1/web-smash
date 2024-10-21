@@ -218,3 +218,42 @@ export const finishDrill = async (req, res) => {
     return res.status(500).json({ error: "Server error." });
   }
 };
+
+export const addFeedback = async (req, res) => {
+  const { feedback } = req.body;
+  const { trainingId, drillId, userId } = req.params;
+
+  try {
+    const training = await Training.findById(trainingId);
+
+    if (!training) {
+      return res.status(404).json({ error: "Training not found." });
+    }
+
+    const drill = training.drills.id(drillId);
+    if (!drill) {
+      return res.status(404).json({ error: "Drill not found." });
+    }
+
+    const finishedUser = drill.finishedUsers.find(
+      (finishedUser) => finishedUser.userId.toString() === userId
+    );
+
+    if (!finishedUser) {
+      return res
+        .status(404)
+        .json({ error: "User has not finished this drill." });
+    }
+
+    finishedUser.feedback = feedback;
+
+    await training.save();
+
+    return res
+      .status(200)
+      .json({ message: "Feedback added successfully.", training });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Server error." });
+  }
+};

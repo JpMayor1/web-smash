@@ -12,7 +12,7 @@ const DrillSchema = new mongoose.Schema({
     {
       userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
       finishedUserVideoUrl: { type: String },
-      feedBack: { type: String },
+      feedback: { type: String },
     },
   ],
 });

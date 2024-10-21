@@ -154,3 +154,16 @@ export const finishDrillApi = async (trainingId, drillId, file) => {
     throw error;
   }
 };
+
+export const addFeddbackApi = async (trainingId, drillId, userId, feedback) => {
+  try {
+    const response = await axiosInstance.put(
+      `/api/trainings/addFeedback/${trainingId}/${drillId}/${userId}`,
+      { feedback }
+    );
+    return response;
+  } catch (error) {
+    console.error("Error adding feedback:", error);
+    throw error;
+  }
+};

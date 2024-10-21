@@ -10,8 +10,8 @@ const UserTrainings = () => {
 
   // Filter male trainings only
   const maleTrainings = useMemo(() => {
-    return trainings.filter((training) => training.gender === "male");
-  }, [trainings]);
+    return trainings.filter((training) => training.gender === authUser.gender);
+  }, [trainings, authUser]);
 
   // Check the status of a training for a specific user
   const checkUserStatus = (userId, training) => {
@@ -89,7 +89,7 @@ const UserTrainings = () => {
                 </p>
 
                 <Link
-                  to={`/user/trainings/male/training/${training._id}`}
+                  to={`/user/trainings/${training._id}`}
                   className={`px-4 py-1 rounded flex items-center justify-center text-white ${
                     isFirstTraining || !isPreviousTrainingUnfinished
                       ? "bg-primary/90 hover:bg-primary"

@@ -24,7 +24,7 @@ const UserNavBar = () => {
         <Link
           to="/user/trainings"
           className={`text-3xl font-bold ml-4 ${
-            location.pathname === "/user/trainings"
+            location.pathname.startsWith("/user/trainings")
               ? primaryColor
               : "text-white"
           } ${hoverColor}`}

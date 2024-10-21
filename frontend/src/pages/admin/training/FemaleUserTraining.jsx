@@ -1,14 +1,17 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useGetAllUsers from "../../../hooks/admin/training/useGetAllUsers";
 import { usetrainingStore } from "../../../stores/useTrainingStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import baseURL from "../../../axios/baseUrl";
+import useAddFeedback from "../../../hooks/admin/training/useAddFeedback";
 
 const FemaleUserTraining = () => {
+  const [feedback, setFeedback] = useState("");
   const { trainingId, userId } = useParams();
-  const navigate = useNavigate();
   const { loading, error, users, getUsers } = useGetAllUsers();
+  const { addFeedback, feedbackLoading } = useAddFeedback();
   const { trainings } = usetrainingStore();
+  const navigate = useNavigate();
 
   const training = trainings.find((t) => t._id === trainingId);
   const user = users.find((u) => u._id === userId);
@@ -25,6 +28,13 @@ const FemaleUserTraining = () => {
   if (error) return <p className="text-red">{error}</p>;
   if (!user) return <p className="text-red">User not found</p>;
   if (!training) return <p className="text-red">Training not found</p>;
+
+  const handleFeedback = (trainingId, drillId) => {
+    const success = addFeedback(trainingId, drillId, user._id, feedback);
+    if (success) {
+      setFeedback("");
+    }
+  };
 
   return (
     <div className="w-full h-full max-w-screen-xl relative hide-scrollbar overflow-y-auto p-1">
@@ -105,10 +115,72 @@ const FemaleUserTraining = () => {
                     </a>
                   </p>
 
-                  {drill.finishedUsers.map((u) => u._id).includes(user._id) ? (
-                    <p className="text-green-500">
-                      User has finished this drill
-                    </p>
+                  {drill.finishedUsers.some((u) => u.userId === user._id) ? (
+                    <>
+                      <p className="font-semibold mt-3">Finished Video:</p>
+                      <div className="w-full h-auto flex flex-col items-center justify-center">
+                        {drill.finishedUsers.map((u) => {
+                          if (u.userId === user._id && u.finishedUserVideoUrl) {
+                            return (
+                              <div key={u.userId}>
+                                <video
+                                  controls
+                                  className="w-full max-w-screen-sm h-auto object-cover rounded-md shadow-sm my-2"
+                                >
+                                  <source
+                                    src={`${baseURL}/videos/${u.finishedUserVideoUrl}`}
+                                    type="video/mp4"
+                                  />
+                                  Your browser does not support the video tag.
+                                </video>
+
+                                {u.feedback ? (
+                                  <>
+                                    <p className="font-semibold">Feedback:</p>
+                                    <p className="text-primary">{u.feedback}</p>
+                                  </>
+                                ) : (
+                                  <div className="w-full max-w-screen-sm">
+                                    <label className="form-control w-full max-w-screen-sm">
+                                      <div className="label">
+                                        <span className="label-text text-white">
+                                          Feedback:
+                                        </span>
+                                      </div>
+                                      <input
+                                        type="text"
+                                        name="feedback"
+                                        value={feedback}
+                                        onChange={(e) =>
+                                          setFeedback(e.target.value)
+                                        }
+                                        className="bg-black py-3 px-4 rounded-md w-full text-white"
+                                        placeholder="Feedback"
+                                        required
+                                      />
+                                    </label>
+                                    <button
+                                      onClick={() =>
+                                        handleFeedback(training._id, drill._id)
+                                      }
+                                      className="bg-primary text-white px-4 py-2 rounded-md mt-4 min-w-40"
+                                      disabled={feedbackLoading}
+                                    >
+                                      {loading ? (
+                                        <span className="loading loading-spinner loading-xs"></span>
+                                      ) : (
+                                        "save Feedback"
+                                      )}
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          }
+                          return null;
+                        })}
+                      </div>
+                    </>
                   ) : (
                     <p className="text-red">User has not finished this drill</p>
                   )}

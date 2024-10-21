@@ -35,8 +35,8 @@ const FemaleTraining = () => {
   const filteredUsers = users.filter((user) => {
     const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
     const matchesSearch = fullName.includes(searchTerm.toLowerCase());
-    const isMale = user.gender === "female";
-    return matchesSearch && isMale;
+    const isFemale = user.gender === "female";
+    return matchesSearch && isFemale;
   });
 
   return (

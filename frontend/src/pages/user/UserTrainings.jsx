@@ -9,7 +9,7 @@ const UserTrainings = () => {
   const { trainings } = usetrainingStore((state) => state);
 
   // Filter male trainings only
-  const maleTrainings = useMemo(() => {
+  const filteredtrainings = useMemo(() => {
     return trainings.filter((training) => training.gender === authUser.gender);
   }, [trainings, authUser]);
 
@@ -38,14 +38,14 @@ const UserTrainings = () => {
       </h1>
 
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-2">
-        {maleTrainings.map((training, index) => {
+        {filteredtrainings.map((training, index) => {
           const currentStatus = checkUserStatus(authUser._id, training);
           const isFirstTraining = index === 0;
 
           // Check if the previous training is unfinished
           const previousTrainingStatus =
             index > 0
-              ? checkUserStatus(authUser._id, maleTrainings[index - 1])
+              ? checkUserStatus(authUser._id, filteredtrainings[index - 1])
               : "Finished";
           const isPreviousTrainingUnfinished =
             previousTrainingStatus === "Unfinished";

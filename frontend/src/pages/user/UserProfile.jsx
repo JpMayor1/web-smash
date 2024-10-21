@@ -6,8 +6,10 @@ import {
   GraduationScrollIcon,
   Mortarboard01Icon,
   UserIcon,
+  GenderCombinedIcon,
 } from "../../components/svg/svg";
 import useUpdateProfile from "../../hooks/user/useUpdateProfile";
+// import { TbGenderBigender } from "react-icons/tb";
 
 const UserProfile = () => {
   const authUser = useAuthStore((state) => state.authUser);
@@ -39,7 +41,7 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="h-full w-full max-w-screen-sm pt-5 px-5">
+    <div className="h-full w-full max-w-screen-sm pt-5 px-5 overflow-hidden">
       <h1 className="text-white text-center font-semibold text-2xl">Profile</h1>
       <div className="h-full flex items-center justify-center">
         <div className="h-fit w-full flex flex-col gap-4">
@@ -160,6 +162,16 @@ const UserProfile = () => {
               <p className="grow">{authUser.section}</p>
             )}
           </label>
+
+          {!isEditing && (
+            <label
+              className={`flex items-center gap-2 bg-white text-black h-[3rem] px-[1rem] rounded-md`}
+            >
+              {/* <TbGenderBigender className="opacity-50" /> */}
+              <GenderCombinedIcon />
+              <p className="grow">{authUser.gender}</p>
+            </label>
+          )}
 
           {/* Buttons for saving or canceling */}
           {isEditing ? (

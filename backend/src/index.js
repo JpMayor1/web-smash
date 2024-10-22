@@ -24,12 +24,21 @@ app.use(
   cors({
     origin: process.env.FRONTEND_URL,
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
-app.use("/", express.static(path.join(process.cwd(), "public")));
+app.use(
+  "/",
+  express.static(path.join(process.cwd(), "public"), {
+    setHeaders: (res, path) => {
+      res.set("Accept-Ranges", "bytes");
+    },
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("Welcome to Web-Smash Badminton Training Website!");

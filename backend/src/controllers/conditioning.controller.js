@@ -101,7 +101,10 @@ export const deleteConditioning = async (req, res) => {
 
     // Delete warm-up video if it exists
     if (warmUpVideoUrl) {
-      const warmUpVideoPath = path.join("public/videos", warmUpVideoUrl);
+      const warmUpVideoPath = path.join(
+        process.env.VIDEO_UPLOAD_PATH,
+        warmUpVideoUrl
+      );
       fs.unlink(warmUpVideoPath, (err) => {
         if (err)
           console.error(
@@ -113,7 +116,10 @@ export const deleteConditioning = async (req, res) => {
 
     // Delete cool-down video if it exists
     if (cooldownVideoUrl) {
-      const cooldownVideoPath = path.join("public/videos", cooldownVideoUrl);
+      const cooldownVideoPath = path.join(
+        process.env.VIDEO_UPLOAD_PATH,
+        cooldownVideoUrl
+      );
       fs.unlink(cooldownVideoPath, (err) => {
         if (err)
           console.error(

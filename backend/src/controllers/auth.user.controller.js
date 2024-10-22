@@ -66,13 +66,20 @@ export const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ error: "No account found with this email" });
+    }
+
     const isPasswordCorrect = await bcrypt.compare(
       password,
       user?.password || ""
     );
 
-    if (!user || !isPasswordCorrect) {
-      return res.status(400).json({ error: "Invalid email or password" });
+    if (!isPasswordCorrect) {
+      return res.status(400).json({ error: "Incorrect password" });
     }
 
     generateTokenAndSetCookie(user._id.toString(), res);

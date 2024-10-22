@@ -106,7 +106,10 @@ export const updateTraining = async (req, res) => {
         : drill.trainingVideoUrl;
 
       if (videoFile && drill.trainingVideoUrl) {
-        const oldVideoPath = path.join("public/videos", drill.trainingVideoUrl);
+        const oldVideoPath = path.join(
+          process.env.VIDEO_UPLOAD_PATH,
+          drill.trainingVideoUrl
+        );
         fs.unlink(oldVideoPath, (err) => {
           if (err) {
             console.error(`Failed to delete old video: ${oldVideoPath}`, err);
@@ -148,7 +151,10 @@ export const deleteTraining = async (req, res) => {
 
     training.drills.forEach((d) => {
       if (d.trainingVideoUrl) {
-        const videoPath = path.join("public/videos", d.trainingVideoUrl);
+        const videoPath = path.join(
+          process.env.VIDEO_UPLOAD_PATH,
+          d.trainingVideoUrl
+        );
         fs.unlink(videoPath, (err) => {
           if (err) console.error(`Failed to delete video: ${videoPath}`, err);
         });
@@ -158,7 +164,7 @@ export const deleteTraining = async (req, res) => {
         d.finishedUsers.forEach((fu) => {
           if (fu.finishedUserVideoUrl) {
             const videoPath = path.join(
-              "public/videos",
+              process.env.VIDEO_UPLOAD_PATH,
               fu.finishedUserVideoUrl
             );
             fs.unlink(videoPath, (err) => {

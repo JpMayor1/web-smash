@@ -40,7 +40,7 @@ const MaleTraining = () => {
   });
 
   return (
-    <div className="w-full h-full max-w-screen-xl relative overflow-y-auto p-1">
+    <div className="w-full h-full max-w-screen-xl relative overflow-y-auto hide-scrollbar p-1">
       <button onClick={handleBack} className="text-white absolute top-0 left-0">
         Back
       </button>

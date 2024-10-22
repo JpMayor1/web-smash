@@ -32,12 +32,6 @@ const UserViewTraning = () => {
         Back
       </button>
       <div className="h-fit w-full flex flex-col items-center justify-start p-3">
-        <div className="bg-white px-8 py-2 rounded-md my-2">
-          <h2 className="text-primary font-bold text-center text-xl">
-            {authUser.firstName} {authUser.lastName}
-          </h2>
-        </div>
-
         <div className="bg-white p-5 w-full h-full max-w-screen-lg flex flex-col gap-2 rounded-md">
           <h2 className="text-primary font-bold text-center text-2xl">
             Day {training.day || "Training Day"}

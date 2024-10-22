@@ -64,17 +64,18 @@ const UserTrainings = () => {
                 </h3>
                 <ul className="list-disc text-black/90 text-base pl-5">
                   {training.drills.map((d, i) => (
-                    <li key={i} className="flex items-center justify-between">
-                      <p className="text-black text-base break-words whitespace-normal">
+                    <li key={i} className="flex items-start justify-between">
+                      <p className="text-black text-base break-words whitespace-normal w-[90%]">
                         {d.drillName}
                       </p>
 
-                      {/* Check if the drill is finished or not */}
-                      {checkDrillStatus(authUser._id, d) ? (
-                        <FaCircleCheck className="text-green-500" />
-                      ) : (
-                        <FaCircleXmark className="text-red" />
-                      )}
+                      <p className="w-[10%] pt-1">
+                        {checkDrillStatus(authUser._id, d) ? (
+                          <FaCircleCheck className="text-green-500" />
+                        ) : (
+                          <FaCircleXmark className="text-red" />
+                        )}
+                      </p>
                     </li>
                   ))}
                 </ul>

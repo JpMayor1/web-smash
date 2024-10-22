@@ -43,10 +43,10 @@ export const createTraining = async (req, res) => {
     const drillArray = Array.isArray(drills) ? drills : [drills];
 
     const updatedDrills = drillArray.map((drill, index) => {
-      const videoFieldName = drill.trainingVideo;
+      const videoFieldName = `trainingVideo${index}`;
 
       const videoFile = req.files.find(
-        (file) => file.originalname === videoFieldName
+        (file) => file.fieldname === videoFieldName
       );
 
       const trainingVideoUrl = videoFile ? videoFile.filename : "";
@@ -98,9 +98,9 @@ export const updateTraining = async (req, res) => {
     const drillArray = Array.isArray(drills) ? drills : [drills];
 
     const updatedDrills = drillArray.map((drill, index) => {
-      const videoFile = files.find(
-        (file) => file.originalname === drill.trainingVideo
-      );
+      const videoFieldName = `trainingVideo${index}`;
+
+      const videoFile = files.find((file) => file.fieldname === videoFieldName);
       const trainingVideoUrl = videoFile
         ? videoFile.filename
         : drill.trainingVideoUrl;
@@ -151,6 +151,21 @@ export const deleteTraining = async (req, res) => {
         const videoPath = path.join("public/videos", d.trainingVideoUrl);
         fs.unlink(videoPath, (err) => {
           if (err) console.error(`Failed to delete video: ${videoPath}`, err);
+        });
+      }
+
+      if (d.finishedUsers.length > 0) {
+        d.finishedUsers.forEach((fu) => {
+          if (fu.finishedUserVideoUrl) {
+            const videoPath = path.join(
+              "public/videos",
+              fu.finishedUserVideoUrl
+            );
+            fs.unlink(videoPath, (err) => {
+              if (err)
+                console.error(`Failed to delete video: ${videoPath}`, err);
+            });
+          }
         });
       }
     });

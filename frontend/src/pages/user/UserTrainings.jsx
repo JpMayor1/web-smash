@@ -32,7 +32,7 @@ const UserTrainings = () => {
   };
 
   return (
-    <div className="w-full h-full max-w-screen-xl p-4">
+    <div className="w-full h-full max-w-screen-xl p-4 overflow-y-auto">
       <h1 className="text-white text-center font-semibold text-2xl">
         Trainings
       </h1>

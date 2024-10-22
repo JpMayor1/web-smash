@@ -13,7 +13,7 @@ const MaleTrainings = () => {
   }, [trainings]);
 
   return (
-    <div className="w-full h-full max-w-screen-xl">
+    <div className="w-full h-full max-w-screen-xl overflow-y-auto p-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {maleTrainings.map((training, index) => (
           <div

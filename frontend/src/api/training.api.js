@@ -45,9 +45,8 @@ export const createTrainingApi = async (formData) => {
     });
 
     if (drill.trainingVideo instanceof File) {
-      // Multer expects 'trainingVideo' key, not a nested one
-      data.append("trainingVideo", drill.trainingVideo);
-      data.append(`drills[${index}][trainingVideo]`, drill.trainingVideo.name);
+      const videoFieldname = `trainingVideo${index}`;
+      data.append(videoFieldname, drill.trainingVideo);
     } else {
       console.warn(
         `drill.trainingVideo for drill ${index} is not a File object.`
@@ -96,8 +95,8 @@ export const updateTrainingApi = async (id, formData) => {
 
     // Append the original name of the video (if it exists) as a separate field
     if (drill.trainingVideo instanceof File) {
-      data.append("trainingVideo", drill.trainingVideo);
-      data.append(`drills[${index}][trainingVideo]`, drill.trainingVideo.name);
+      const videoFieldname = `trainingVideo${index}`;
+      data.append(videoFieldname, drill.trainingVideo);
     }
 
     data.append(`drills[${index}][trainingVideoUrl]`, drill.trainingVideoUrl);

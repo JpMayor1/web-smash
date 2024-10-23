@@ -39,6 +39,7 @@ export const updateUser = async (req, res) => {
         email: user.email,
         gradeLevel: user.gradeLevel,
         section: user.section,
+        gender: user.gender,
         role: "user",
       },
     });

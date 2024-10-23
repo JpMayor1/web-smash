@@ -15,7 +15,7 @@ const IsAuthenticated = () => {
 
   return (
     <div
-      className="bg-cover bg-no-repeat bg-center h-screen w-screen flex items-center overflow-hidden"
+      className="bg-cover bg-no-repeat bg-center h-full w-full flex items-center overflow-y-auto overflow-x-hidden"
       style={{ backgroundImage: `url(${bg})` }}
     >
       <Outlet />;

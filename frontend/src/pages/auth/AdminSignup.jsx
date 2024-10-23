@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import bg from "../../assets/web-smash-bg.jpg";
 import useAdminSignup from "../../hooks/admin/useAdminSignup";
 import { EmailIcon, KeyIcon, UserIcon } from "../../components/svg/svg";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -42,107 +41,104 @@ const AdminSignup = () => {
   };
 
   return (
-    <div
-      className="bg-cover bg-no-repeat bg-center h-full min-h-screen w-screen flex items-center justify-center p-5"
-      style={{ backgroundImage: `url(${bg})` }}
-    >
+    <div className="h-full min-h-screen w-screen flex items-center justify-center p-3 overflow-y-auto">
       <div className="w-full max-w-xl shadow-md bg-black/50 backdrop-blur-lg rounded-md p-6">
-        <h2 className="text-4xl font-bold text-center mb-6 text-primary/90">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 text-primary/90">
           Sign up as Admin
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <label className="input input-bordered flex items-center gap-2">
+        <form onSubmit={handleSubmit} className="space-y-2">
+          <label className="input input-bordered flex items-center gap-2 text-white">
             <UserIcon />
             <input
               type="text"
               name="firstName"
               value={form.firstName}
               onChange={handleChange}
-              className="grow"
+              className="w-full"
               placeholder="First Name"
               required
             />
           </label>
 
-          <label className="input input-bordered flex items-center gap-2">
+          <label className="input input-bordered flex items-center gap-2 text-white">
             <UserIcon />
             <input
               type="text"
               name="lastName"
               value={form.lastName}
               onChange={handleChange}
-              className="grow"
+              className="w-full"
               placeholder="Last Name"
               required
             />
           </label>
 
-          <label className="input input-bordered flex items-center gap-2">
+          <label className="input input-bordered flex items-center gap-2 text-white">
             <EmailIcon />
             <input
               type="email"
               name="email"
               value={form.email}
               onChange={handleChange}
-              className="grow"
+              className="w-full"
               placeholder="Email"
               required
             />
           </label>
 
-          <label className="input input-bordered flex items-center gap-2 relative">
+          <label className="input input-bordered flex items-center gap-2 text-white">
             <KeyIcon />
             <input
               type={showPassword ? "text" : "password"}
               name="password"
               value={form.password}
               onChange={handleChange}
-              className="grow"
+              className="w-[90%]"
               placeholder="Password"
               required
             />
             <button
               type="button"
-              className="absolute right-3"
+              className="w-[10%]"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <FaEye /> : <FaEyeSlash />}
             </button>
           </label>
-          <label className="input input-bordered flex items-center gap-2 relative">
+          <label className="input input-bordered flex items-center gap-2 text-white">
             <KeyIcon />
             <input
               type={showConfirmPassword ? "text" : "password"}
               name="confirmPassword"
               value={form.confirmPassword}
               onChange={handleChange}
-              className="grow"
+              className="w-[90%]"
               placeholder="Confirm Password"
               required
             />
             <button
               type="button"
-              className="absolute right-3"
+              className="w-[10%]"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             >
               {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
             </button>
           </label>
 
-          <label className="input input-bordered flex items-center gap-2 relative">
+          <label className="input input-bordered flex items-center gap-2 text-white">
             <KeyIcon />
             <input
               type={showSecretKey ? "text" : "password"}
               name="secretKey"
               value={form.secretKey}
               onChange={handleChange}
-              className="grow"
+              className="w-full"
               placeholder="Secret Key"
               required
             />
             <button
               type="button"
-              className="absolute right-3"
+              className="w-[10%]"
               onClick={() => setShowSecretKey(!showSecretKey)}
             >
               {showSecretKey ? <FaEye /> : <FaEyeSlash />}

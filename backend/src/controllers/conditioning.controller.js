@@ -12,16 +12,15 @@ export const getAllConditionings = async (req, res) => {
 };
 
 export const createConditioning = async (req, res) => {
-  const { warmUpVideoUrl, cooldownVideoUrl } = req.body;
   const files = req.files;
 
   try {
     const warmUpVideoFile = files.find(
-      (file) => file.originalname === warmUpVideoUrl
+      (file) => file.fieldname === "warmUpVideo"
     );
 
     const coolDownVideoFile = files.find(
-      (file) => file.originalname === cooldownVideoUrl
+      (file) => file.fieldname === "cooldownVideo"
     );
 
     const warmUpVideoFileUrl = warmUpVideoFile.filename || "";
@@ -42,7 +41,6 @@ export const createConditioning = async (req, res) => {
 
 export const updateConditioning = async (req, res) => {
   const { id } = req.params;
-  const { warmUpVideoUrl, cooldownVideoUrl } = req.body;
   const files = req.files;
 
   try {
@@ -57,17 +55,39 @@ export const updateConditioning = async (req, res) => {
 
     if (files) {
       const warmUpVideoFile = files.find(
-        (file) => file.originalname === warmUpVideoUrl
+        (file) => file.fieldname === "warmUpVideo"
       );
       const cooldownVideoFile = files.find(
-        (file) => file.originalname === cooldownVideoUrl
+        (file) => file.fieldname === "cooldownVideo"
       );
 
       if (warmUpVideoFile) {
+        const warmUpVideoPath = path.join(
+          process.env.VIDEO_UPLOAD_PATH,
+          warmUpVideoFileUrl
+        );
+        fs.unlink(warmUpVideoPath, (err) => {
+          if (err)
+            console.error(
+              `Failed to delete warm-up video: ${warmUpVideoPath}`,
+              err
+            );
+        });
         warmUpVideoFileUrl = warmUpVideoFile.filename;
       }
 
       if (cooldownVideoFile) {
+        const cooldownVideoPath = path.join(
+          process.env.VIDEO_UPLOAD_PATH,
+          cooldownVideoFileUrl
+        );
+        fs.unlink(cooldownVideoPath, (err) => {
+          if (err)
+            console.error(
+              `Failed to delete cool-down video: ${cooldownVideoPath}`,
+              err
+            );
+        });
         cooldownVideoFileUrl = cooldownVideoFile.filename;
       }
     }

@@ -25,39 +25,39 @@ const UserLogin = () => {
     login(form.email, form.password);
   };
   return (
-    <div className="h-full w-screen flex items-center justify-center overflow-y-auto p-3">
+    <div className="h-screen w-screen flex items-center justify-center overflow-hidden p-3">
       <div className="w-full max-w-xl shadow-md bg-black/50 backdrop-blur-lg rounded-md p-6">
         <h2 className="text-4xl font-bold text-center mb-6 text-primary/90">
           Login
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <label className="input input-bordered flex items-center gap-2">
+        <form onSubmit={handleSubmit} className="space-y-2">
+          <label className="input input-bordered flex items-center gap-2 text-white">
             <EmailIcon />
             <input
               type="email"
               name="email"
               value={form.email}
               onChange={handleChange}
-              className="grow"
+              className="w-full"
               placeholder="Email"
               required
             />
           </label>
 
-          <label className="input input-bordered flex items-center gap-2 relative">
+          <label className="input input-bordered flex items-center gap-2 text-white">
             <KeyIcon />
             <input
               type={showPassword ? "text" : "password"}
               name="password"
               value={form.password}
               onChange={handleChange}
-              className="grow"
+              className="w-[90%]"
               placeholder="Password"
               required
             />
             <button
               type="button"
-              className="absolute right-3"
+              className="w-[10%]"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <FaEye /> : <FaEyeSlash />}

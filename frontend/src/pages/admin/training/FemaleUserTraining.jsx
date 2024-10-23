@@ -6,7 +6,7 @@ import baseURL from "../../../axios/baseUrl";
 import useAddFeedback from "../../../hooks/admin/training/useAddFeedback";
 
 const FemaleUserTraining = () => {
-  const [feedback, setFeedback] = useState("");
+  const [feedbacks, setFeedbacks] = useState({});
   const { trainingId, userId } = useParams();
   const { loading, error, users, getUsers } = useGetAllUsers();
   const { addFeedback, feedbackLoading } = useAddFeedback();
@@ -29,15 +29,24 @@ const FemaleUserTraining = () => {
   if (!user) return <p className="text-red">User not found</p>;
   if (!training) return <p className="text-red">Training not found</p>;
 
+  const handleFeedbackChange = (drillId, value) => {
+    setFeedbacks((prev) => ({ ...prev, [drillId]: value }));
+  };
+
   const handleFeedback = (trainingId, drillId) => {
-    const success = addFeedback(trainingId, drillId, user._id, feedback);
+    const success = addFeedback(
+      trainingId,
+      drillId,
+      user._id,
+      feedbacks[drillId]
+    );
     if (success) {
-      setFeedback("");
+      setFeedbacks((prev) => ({ ...prev, [drillId]: "" }));
     }
   };
 
   return (
-    <div className="w-full h-full max-w-screen-xl relative hide-scrollbar overflow-y-auto p-1">
+    <div className="w-full h-full max-w-screen-xl relative overflow-y-auto p-1">
       <button
         onClick={handleBack}
         className="text-white sticky top-0 left-0 z-10"
@@ -55,7 +64,7 @@ const FemaleUserTraining = () => {
           <h2 className="text-primary font-bold text-center text-2xl">
             Day {training.day || "Training Day"}
           </h2>
-          <h3 className="text-black font-semibold text-xl">
+          <h3 className="text-black font-semibold text-xl break-words whitespace-normal">
             {training.title || "Training Title"}
           </h3>
 
@@ -108,7 +117,7 @@ const FemaleUserTraining = () => {
                     <span className="font-semibold">Reference:</span>{" "}
                     <a
                       href={drill.videoReference}
-                      target="_black"
+                      target="_blank"
                       className="text-secondary/90 hover:text-secondary"
                     >
                       {drill.videoReference}
@@ -150,9 +159,12 @@ const FemaleUserTraining = () => {
                                       <input
                                         type="text"
                                         name="feedback"
-                                        value={feedback}
+                                        value={feedbacks[drill._id] || ""}
                                         onChange={(e) =>
-                                          setFeedback(e.target.value)
+                                          handleFeedbackChange(
+                                            drill._id,
+                                            e.target.value
+                                          )
                                         }
                                         className="bg-black py-3 px-4 rounded-md w-full text-white"
                                         placeholder="Feedback"
@@ -166,10 +178,10 @@ const FemaleUserTraining = () => {
                                       className="bg-primary text-white px-4 py-2 rounded-md mt-4 min-w-40"
                                       disabled={feedbackLoading}
                                     >
-                                      {loading ? (
+                                      {feedbackLoading ? (
                                         <span className="loading loading-spinner loading-xs"></span>
                                       ) : (
-                                        "save Feedback"
+                                        "Save Feedback"
                                       )}
                                     </button>
                                   </div>

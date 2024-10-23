@@ -43,7 +43,7 @@ const CreateConditioning = () => {
       </button>
 
       <div
-        className={`absolute top-0 left-0 w-screen h-screen overflow-y-auto overflow-x-hidden p-2 bg-black/20 flex items-start justify-center transition-all duration-300 transform ${
+        className={`absolute top-0 left-0 w-screen h-screen overflow-y-auto overflow-x-hidden p-2 bg-black/20 flex items-center justify-center transition-all duration-300 transform ${
           openModal ? "translate-y-0" : "-translate-y-full"
         }`}
       >

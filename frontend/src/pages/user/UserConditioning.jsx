@@ -1,11 +1,8 @@
 import { useEffect } from "react";
 import useConditioningStore from "../../stores/useConditioningStore";
 import baseURL from "../../axios/baseUrl";
-import CreateConditioning from "../../components/conditioning/CreateConditioning";
-import DeleteConditioning from "../../components/conditioning/DeleteConditioning";
-import UpdateConditioning from "../../components/conditioning/UpdateConditioning";
 
-const Conditioning = () => {
+const UserConditioning = () => {
   const { conditionings, fetchConditionings, loading, error } =
     useConditioningStore();
 
@@ -18,7 +15,7 @@ const Conditioning = () => {
 
   return (
     <div className="h-full w-full p-4 flex items-start justify-center overflow-y-auto">
-      <div className="w-full md:w-1/2 bg-white shadow-md rounded-lg p-4">
+      <div className="h-fit w-full md:w-1/2 bg-white shadow-md rounded-lg p-4">
         {/* Render conditionings */}
         {conditionings.length > 0 ? (
           conditionings.map((conditioning) => (
@@ -55,21 +52,13 @@ const Conditioning = () => {
                   </video>
                 </div>
               </div>
-              <div className="w-full flex gap-4 items-center justify-center mt-3">
-                <UpdateConditioning
-                  conditioning={conditioning}
-                  onUpdate={fetchConditionings}
-                />
-                <DeleteConditioning conditioning={conditioning} />
-              </div>
             </div>
           ))
         ) : (
-          <div className="flex flex-col items-center justify-center gap-2">
+          <div className="h-full w-full flex items-center justify-center">
             <p className="text-black text-center">
               No conditioning videos found!
             </p>
-            <CreateConditioning />
           </div>
         )}
       </div>
@@ -77,4 +66,4 @@ const Conditioning = () => {
   );
 };
 
-export default Conditioning;
+export default UserConditioning;

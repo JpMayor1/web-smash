@@ -24,7 +24,7 @@ const FemaleTrainings = () => {
               <h2 className="text-xl text-center font-bold text-primary mb-2">
                 Day {training.day}
               </h2>
-              <h3 className="text-lg text-black font-semibold mb-2">
+              <h3 className="text-lg text-black font-semibold mb-2 break-words whitespace-normal">
                 {training.title}
               </h3>
               <ul className="list-disc text-black/90 text-sm pl-5">
@@ -50,7 +50,7 @@ const FemaleTrainings = () => {
             </div>
           </div>
         ))}
-        <CreateTrainingModal gender={"female"} />
+        <CreateTrainingModal />
       </div>
     </div>
   );

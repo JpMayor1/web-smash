@@ -19,6 +19,7 @@ import FemaleTraining from "./pages/admin/training/FemaleTraining";
 import MaleUserTraining from "./pages/admin/training/MaleUserTraining";
 import FemaleUserTraining from "./pages/admin/training/FemaleUserTraining";
 import UserViewTraning from "./pages/user/training/UserViewTraining";
+import UserConditioning from "./pages/user/UserConditioning";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "/user",
         element: <UserHome />,
+      },
+      {
+        path: "/user/conditioning",
+        element: <UserConditioning />,
       },
       {
         path: "/user/trainings",

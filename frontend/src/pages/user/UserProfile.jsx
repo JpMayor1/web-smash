@@ -9,7 +9,6 @@ import {
   GenderCombinedIcon,
 } from "../../components/svg/svg";
 import useUpdateProfile from "../../hooks/user/useUpdateProfile";
-// import { TbGenderBigender } from "react-icons/tb";
 
 const UserProfile = () => {
   const authUser = useAuthStore((state) => state.authUser);
@@ -44,12 +43,12 @@ const UserProfile = () => {
     <div className="h-full w-full max-w-screen-sm pt-5 px-5 overflow-hidden">
       <h1 className="text-white text-center font-semibold text-2xl">Profile</h1>
       <div className="h-full flex items-center justify-center">
-        <div className="h-fit w-full flex flex-col gap-4">
+        <div className="h-fit w-full flex flex-col gap-3">
           {/* First Name */}
           <label
             className={` flex items-center gap-2 ${
               isEditing
-                ? "input input-bordered"
+                ? "input input-bordered text-white"
                 : "bg-white text-black h-[3rem] px-[1rem] rounded-md"
             }`}
           >
@@ -60,12 +59,14 @@ const UserProfile = () => {
                 name="firstName"
                 value={updatedUserDetails.firstName}
                 onChange={handleChange}
-                className="grow"
+                className="w-full"
                 placeholder="First Name"
                 required
               />
             ) : (
-              <p className="grow">{authUser.firstName}</p>
+              <p className="w-full break-words whitespace-normal">
+                {authUser.firstName}
+              </p>
             )}
           </label>
 
@@ -73,7 +74,7 @@ const UserProfile = () => {
           <label
             className={` flex items-center gap-2 ${
               isEditing
-                ? "input input-bordered"
+                ? "input input-bordered text-white"
                 : "bg-white text-black h-[3rem] px-[1rem] rounded-md"
             }`}
           >
@@ -84,12 +85,14 @@ const UserProfile = () => {
                 name="lastName"
                 value={updatedUserDetails.lastName}
                 onChange={handleChange}
-                className="grow"
+                className="w-full"
                 placeholder="Last Name"
                 required
               />
             ) : (
-              <p className="grow">{authUser.lastName}</p>
+              <p className="w-full break-words whitespace-normal">
+                {authUser.lastName}
+              </p>
             )}
           </label>
 
@@ -97,7 +100,7 @@ const UserProfile = () => {
           <label
             className={` flex items-center gap-2 ${
               isEditing
-                ? "input input-bordered"
+                ? "input input-bordered text-white"
                 : "bg-white text-black h-[3rem] px-[1rem] rounded-md"
             }`}
           >
@@ -108,12 +111,14 @@ const UserProfile = () => {
                 name="email"
                 value={updatedUserDetails.email}
                 onChange={handleChange}
-                className="grow"
+                className="w-full"
                 placeholder="Email"
                 required
               />
             ) : (
-              <p className="grow">{authUser.email}</p>
+              <p className="w-full break-words whitespace-normal">
+                {authUser.email}
+              </p>
             )}
           </label>
 
@@ -121,7 +126,7 @@ const UserProfile = () => {
           <label
             className={` flex items-center gap-2 ${
               isEditing
-                ? "input input-bordered"
+                ? "input input-bordered text-white"
                 : "bg-white text-black h-[3rem] px-[1rem] rounded-md"
             }`}
           >
@@ -132,11 +137,13 @@ const UserProfile = () => {
                 name="gradeLevel"
                 value={updatedUserDetails.gradeLevel}
                 onChange={handleChange}
-                className="grow"
+                className="w-full"
                 placeholder="Grade Level"
               />
             ) : (
-              <p className="grow">{authUser.gradeLevel}</p>
+              <p className="w-full break-words whitespace-normal">
+                {authUser.gradeLevel}
+              </p>
             )}
           </label>
 
@@ -144,7 +151,7 @@ const UserProfile = () => {
           <label
             className={` flex items-center gap-2 ${
               isEditing
-                ? "input input-bordered"
+                ? "input input-bordered text-white"
                 : "bg-white text-black h-[3rem] px-[1rem] rounded-md"
             }`}
           >
@@ -155,11 +162,13 @@ const UserProfile = () => {
                 name="section"
                 value={updatedUserDetails.section}
                 onChange={handleChange}
-                className="grow"
+                className="w-full"
                 placeholder="Section"
               />
             ) : (
-              <p className="grow">{authUser.section}</p>
+              <p className="w-full break-words whitespace-normal">
+                {authUser.section}
+              </p>
             )}
           </label>
 
@@ -167,9 +176,10 @@ const UserProfile = () => {
             <label
               className={`flex items-center gap-2 bg-white text-black h-[3rem] px-[1rem] rounded-md`}
             >
-              {/* <TbGenderBigender className="opacity-50" /> */}
               <GenderCombinedIcon />
-              <p className="grow">{authUser.gender}</p>
+              <p className="w-full break-words whitespace-normal">
+                {authUser.gender}
+              </p>
             </label>
           )}
 

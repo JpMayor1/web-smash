@@ -40,7 +40,7 @@ const MaleTraining = () => {
   });
 
   return (
-    <div className="w-full h-full max-w-screen-xl relative overflow-y-auto hide-scrollbar p-1">
+    <div className="w-full h-full max-w-screen-xl relative overflow-y-auto p-1">
       <button onClick={handleBack} className="text-white absolute top-0 left-0">
         Back
       </button>
@@ -50,7 +50,7 @@ const MaleTraining = () => {
             <h2 className="text-primary font-bold text-center text-xl">
               Day {training.day || "Training Day"}
             </h2>
-            <h3 className="text-black font-semibold text-xl">
+            <h3 className="text-black font-semibold text-xl break-words whitespace-normal">
               {training.title || "Training Title"}{" "}
             </h3>
             <ul className="list-disc pl-8">

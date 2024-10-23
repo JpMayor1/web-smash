@@ -24,7 +24,7 @@ const UserViewTraning = () => {
   };
 
   return (
-    <div className="w-full h-full max-w-screen-xl relative hide-scrollbar overflow-y-auto p-1">
+    <div className="w-full h-full max-w-screen-xl relative overflow-y-auto p-1">
       <button
         onClick={handleBack}
         className="text-white sticky top-0 left-0 z-10 drop-shadow-lg"

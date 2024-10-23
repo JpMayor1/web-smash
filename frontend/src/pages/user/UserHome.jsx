@@ -52,7 +52,7 @@ const UserHome = () => {
       <div className="h-full w-full max-w-screen-sm p-2 flex flex-col items-center justify-center gap-5">
         {/* Total Trainings */}
         <div className="h-fit w-full bg-white px-5 py-10 flex flex-col items-center justify-center gap-2 rounded-lg">
-          <h2 className="text-primary text-3xl font-semibold">
+          <h2 className="text-primary text-2xl font-semibold">
             Total Training
           </h2>
           <div className="flex items-center justify-center gap-2 text-5xl text-black">
@@ -63,7 +63,7 @@ const UserHome = () => {
 
         {/* Unfinished Trainings */}
         <div className="h-fit w-full bg-white px-5 py-10 flex flex-col items-center justify-center gap-2 rounded-lg">
-          <h2 className="text-primary text-3xl font-semibold">
+          <h2 className="text-primary text-2xl font-semibold">
             Unfinished Training
           </h2>
           <div className="flex items-center justify-center gap-2 text-5xl text-black">
@@ -74,7 +74,7 @@ const UserHome = () => {
 
         {/* Finished Trainings */}
         <div className="h-fit w-full bg-white px-5 py-10 flex flex-col items-center justify-center gap-2 rounded-lg">
-          <h2 className="text-primary text-3xl font-semibold">
+          <h2 className="text-primary text-2xl font-semibold">
             Finished Training
           </h2>
           <div className="flex items-center justify-center gap-2 text-5xl text-black">

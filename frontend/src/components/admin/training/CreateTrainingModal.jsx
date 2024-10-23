@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { IoMdClose } from "react-icons/io";
+import { IoMdClose, IoIosRemoveCircle } from "react-icons/io";
 import useCreateTraining from "../../../hooks/admin/training/useCreateTraining";
 
-const CreateTrainingModal = ({ gender }) => {
+const CreateTrainingModal = () => {
   const [openModal, setOpenModal] = useState(false);
   const [formData, setFormData] = useState({
     day: "",
     title: "",
-    gender: gender || "male",
+    gender: "male",
     drills: [],
   });
 
@@ -97,6 +97,7 @@ const CreateTrainingModal = ({ gender }) => {
 
   const submitCreateTraining = async (e) => {
     e.preventDefault();
+    console.log(formData);
     const success = await createTraining(formData);
     if (success) {
       setOpenModal(false);
@@ -169,6 +170,17 @@ const CreateTrainingModal = ({ gender }) => {
             />
           </label>
 
+          <div className="w-full pt-2">
+            <select
+              className="select select-bordered w-full bg-white text-black"
+              name="gender"
+              onChange={handleChange}
+            >
+              <option value={"male"}>Male</option>
+              <option value={"female"}>Female</option>
+            </select>
+          </div>
+
           {/* Drills Section */}
           <h3 className="text-white mb-2">Drills</h3>
           {formData.drills.map((drill, index) => (
@@ -178,7 +190,7 @@ const CreateTrainingModal = ({ gender }) => {
                 className="absolute top-0 right-0 text-red text-lg"
                 onClick={() => handleRemoveDrill(index)}
               >
-                Remove
+                <IoIosRemoveCircle />
               </button>
 
               {/* Input for Drill Name */}
@@ -241,7 +253,7 @@ const CreateTrainingModal = ({ gender }) => {
                         handleRemoveHowToDoIt(index, howToDoItIndex)
                       }
                     >
-                      Remove
+                      <IoIosRemoveCircle />
                     </button>
                   </div>
                 ))}

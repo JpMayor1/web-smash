@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { IoHome, IoBarbellSharp, IoPerson } from "react-icons/io5";
+import { IoHome, IoBody, IoBarbellSharp, IoPerson } from "react-icons/io5";
 
 const UserNavBar = () => {
   const location = useLocation();
@@ -18,6 +18,18 @@ const UserNavBar = () => {
           } ${hoverColor}`}
         >
           <IoHome />
+        </Link>
+
+        {/* Conditioning Link */}
+        <Link
+          to="/user/conditioning"
+          className={`text-3xl font-bold ml-4 ${
+            location.pathname.startsWith("/user/conditioning")
+              ? primaryColor
+              : "text-white"
+          } ${hoverColor}`}
+        >
+          <IoBody />
         </Link>
 
         {/* Trainings Link */}

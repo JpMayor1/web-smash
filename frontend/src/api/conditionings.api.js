@@ -15,12 +15,10 @@ export const createConditioningApi = async (formData) => {
 
   if (formData.warmUpVideo instanceof File) {
     data.append("warmUpVideo", formData.warmUpVideo);
-    data.append("warmUpVideoUrl", formData.warmUpVideo.name);
   }
 
   if (formData.cooldownVideo instanceof File) {
     data.append("cooldownVideo", formData.cooldownVideo);
-    data.append("cooldownVideoUrl", formData.cooldownVideo.name);
   }
 
   try {
@@ -45,12 +43,10 @@ export const updateConditioningApi = async (id, formData) => {
 
   if (formData.warmUpVideo instanceof File) {
     data.append("warmUpVideo", formData.warmUpVideo);
-    data.append("warmUpVideoUrl", formData.warmUpVideo.name);
   }
 
   if (formData.cooldownVideo instanceof File) {
     data.append("cooldownVideo", formData.cooldownVideo);
-    data.append("cooldownVideoUrl", formData.cooldownVideo.name);
   }
 
   try {

@@ -39,6 +39,12 @@ export const getTrainingById = async (req, res) => {
 export const createTraining = async (req, res) => {
   const { day, title, drills, gender } = req.body;
 
+  if (!day || !title || !drills || !gender) {
+    return res
+      .status(400)
+      .json({ message: "Please provide all required fields" });
+  }
+
   try {
     const drillArray = Array.isArray(drills) ? drills : [drills];
 
@@ -155,6 +161,7 @@ export const deleteTraining = async (req, res) => {
           process.env.VIDEO_UPLOAD_PATH,
           d.trainingVideoUrl
         );
+        console.log("drill videoPath", videoPath);
         fs.unlink(videoPath, (err) => {
           if (err) console.error(`Failed to delete video: ${videoPath}`, err);
         });
@@ -167,6 +174,7 @@ export const deleteTraining = async (req, res) => {
               process.env.VIDEO_UPLOAD_PATH,
               fu.finishedUserVideoUrl
             );
+            console.log("finishedUsers videoPath", videoPath);
             fs.unlink(videoPath, (err) => {
               if (err)
                 console.error(`Failed to delete video: ${videoPath}`, err);

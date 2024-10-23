@@ -8,9 +8,33 @@ const useCreateTraining = () => {
   const [loading, setLoading] = useState(false);
   const { addTraining } = usetrainingStore();
 
-  const createTraining = async (formData) => {
-    setLoading(true);
+  const validateFormData = (formData) => {
+    switch (true) {
+      case !formData.day:
+        toast.error("Please select a day.");
+        return false;
+      case !formData.title:
+        toast.error("Please enter a title.");
+        return false;
+      case formData.drills.length === 0:
+        toast.error("Please add at least one drill.");
+        return false;
+      case !formData.gender:
+        toast.error("Please select a gender.");
+        return false;
+      default:
+        return true;
+    }
+  };
 
+  const createTraining = async (formData) => {
+    const success = validateFormData(formData);
+
+    if (!success) {
+      return;
+    }
+
+    setLoading(true);
     try {
       const response = await createTrainingApi(formData);
 
@@ -31,7 +55,7 @@ const useCreateTraining = () => {
           toast.error(error.response.data.error);
           return false;
         } else {
-          toast.error("An error occurred while creating trainings.");
+          toast.error(error.response.data.message);
           return false;
         }
       } else {

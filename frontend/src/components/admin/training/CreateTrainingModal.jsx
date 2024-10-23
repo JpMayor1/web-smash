@@ -7,7 +7,7 @@ const CreateTrainingModal = () => {
   const [formData, setFormData] = useState({
     day: "",
     title: "",
-    gender: "male",
+    gender: "",
     drills: [],
   });
 
@@ -97,7 +97,6 @@ const CreateTrainingModal = () => {
 
   const submitCreateTraining = async (e) => {
     e.preventDefault();
-    console.log(formData);
     const success = await createTraining(formData);
     if (success) {
       setOpenModal(false);
@@ -176,6 +175,7 @@ const CreateTrainingModal = () => {
               name="gender"
               onChange={handleChange}
             >
+              <option value={""}>Select Gender</option>
               <option value={"male"}>Male</option>
               <option value={"female"}>Female</option>
             </select>

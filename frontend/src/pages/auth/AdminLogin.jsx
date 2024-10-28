@@ -32,7 +32,7 @@ const AdminLogin = () => {
           Login as Admin
         </h2>
         <form onSubmit={handleSubmit} className="space-y-2">
-          <label className="input input-bordered flex items-center gap-2 text-white">
+          <label className="input input-bordered flex items-center gap-2 text-white bg-black">
             <EmailIcon />
             <input
               type="email"
@@ -45,7 +45,7 @@ const AdminLogin = () => {
             />
           </label>
 
-          <label className="input input-bordered flex items-center gap-2 text-white">
+          <label className="input input-bordered flex items-center gap-2 text-white bg-black">
             <KeyIcon />
             <input
               type={showPassword ? "text" : "password"}

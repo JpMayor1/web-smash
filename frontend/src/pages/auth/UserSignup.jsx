@@ -56,7 +56,7 @@ const UserSignup = () => {
           Sign up
         </h2>
         <form onSubmit={handleSubmit} className="space-y-2">
-          <label className="input input-bordered flex items-center gap-2 text-white">
+          <label className="input input-bordered flex items-center gap-2 text-white bg-black">
             <UserIcon />
             <input
               type="text"
@@ -69,7 +69,7 @@ const UserSignup = () => {
             />
           </label>
 
-          <label className="input input-bordered flex items-center gap-2 text-white">
+          <label className="input input-bordered flex items-center gap-2 text-white bg-black">
             <UserIcon />
             <input
               type="text"
@@ -82,7 +82,7 @@ const UserSignup = () => {
             />
           </label>
 
-          <label className="input input-bordered flex items-center gap-2 text-white">
+          <label className="input input-bordered flex items-center gap-2 text-white bg-black">
             <EmailIcon />
             <input
               type="email"
@@ -95,7 +95,7 @@ const UserSignup = () => {
             />
           </label>
 
-          <label className="input input-bordered flex items-center gap-2 text-white">
+          <label className="input input-bordered flex items-center gap-2 text-white bg-black">
             <KeyIcon />
             <input
               type={showPassword ? "text" : "password"}
@@ -114,7 +114,7 @@ const UserSignup = () => {
               {showPassword ? <FaEye /> : <FaEyeSlash />}
             </button>
           </label>
-          <label className="input input-bordered flex items-center gap-2 text-white">
+          <label className="input input-bordered flex items-center gap-2 text-white bg-black">
             <KeyIcon />
             <input
               type={showConfirmPassword ? "text" : "password"}
@@ -134,7 +134,7 @@ const UserSignup = () => {
             </button>
           </label>
 
-          <label className="input input-bordered flex items-center gap-2 text-white">
+          <label className="input input-bordered flex items-center gap-2 text-white bg-black">
             <Mortarboard01Icon />
             <input
               type="number"
@@ -148,7 +148,7 @@ const UserSignup = () => {
             />
           </label>
 
-          <label className="input input-bordered flex items-center gap-2 text-white">
+          <label className="input input-bordered flex items-center gap-2 text-white bg-black">
             <GraduationScrollIcon />
             <input
               type="text"
@@ -162,7 +162,7 @@ const UserSignup = () => {
           </label>
 
           <select
-            className="select select-bordered w-full text-white"
+            className="select select-bordered w-full text-white bg-black"
             name="gender"
             onChange={handleChange}
           >

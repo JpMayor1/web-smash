@@ -48,7 +48,7 @@ const UserProfile = () => {
           <label
             className={` flex items-center gap-2 ${
               isEditing
-                ? "input input-bordered text-white"
+                ? "input input-bordered text-white bg-black"
                 : "bg-white text-black h-[3rem] px-[1rem] rounded-md"
             }`}
           >
@@ -74,7 +74,7 @@ const UserProfile = () => {
           <label
             className={` flex items-center gap-2 ${
               isEditing
-                ? "input input-bordered text-white"
+                ? "input input-bordered text-white bg-black"
                 : "bg-white text-black h-[3rem] px-[1rem] rounded-md"
             }`}
           >
@@ -100,7 +100,7 @@ const UserProfile = () => {
           <label
             className={` flex items-center gap-2 ${
               isEditing
-                ? "input input-bordered text-white"
+                ? "input input-bordered text-white bg-black"
                 : "bg-white text-black h-[3rem] px-[1rem] rounded-md"
             }`}
           >
@@ -126,7 +126,7 @@ const UserProfile = () => {
           <label
             className={` flex items-center gap-2 ${
               isEditing
-                ? "input input-bordered text-white"
+                ? "input input-bordered text-white bg-black"
                 : "bg-white text-black h-[3rem] px-[1rem] rounded-md"
             }`}
           >
@@ -151,7 +151,7 @@ const UserProfile = () => {
           <label
             className={` flex items-center gap-2 ${
               isEditing
-                ? "input input-bordered text-white"
+                ? "input input-bordered text-white bg-black"
                 : "bg-white text-black h-[3rem] px-[1rem] rounded-md"
             }`}
           >

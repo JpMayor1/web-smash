@@ -46,9 +46,9 @@ const FemaleTraining = () => {
       </button>
       <div className="h-full w-full flex flex-col items-center justify-start">
         {training ? (
-          <div className="bg-white p-5 rounded-md w-96">
+          <div className="bg-white p-5 rounded-md w-full md:w-96">
             <h2 className="text-primary font-bold text-center text-xl">
-              Day {training.day || "Training Day"}
+              Day {training.day || 0}
             </h2>
             <h3 className="text-black font-semibold text-xl break-words whitespace-normal">
               {training.title || "Training Title"}{" "}

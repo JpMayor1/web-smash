@@ -46,7 +46,7 @@ const MaleTraining = () => {
       </button>
       <div className="h-full w-full flex flex-col items-center justify-start mt-8">
         {training ? (
-          <div className="bg-white p-5 rounded-md w-96">
+          <div className="bg-white p-5 rounded-md w-full md:w-96">
             <h2 className="text-primary font-bold text-center text-xl">
               Day {training.day || "Training Day"}
             </h2>

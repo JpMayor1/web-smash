@@ -1,4 +1,5 @@
 import axiosInstance from "../axios/axios";
+import { deleteVideoFile, uploadVideoInChunks } from "./videos/videos.api";
 
 export const getAllConditioningsApi = async () => {
   try {
@@ -11,25 +12,27 @@ export const getAllConditioningsApi = async () => {
 };
 
 export const createConditioningApi = async (formData) => {
-  const data = new FormData();
+  const warmUpVideoPath = await uploadVideoInChunks(
+    formData.warmUpVideo,
+    "warmUpVideo"
+  );
 
-  if (formData.warmUpVideo instanceof File) {
-    data.append("warmUpVideo", formData.warmUpVideo);
-  }
+  // Upload cooldown video in chunks
+  const cooldownVideoPath = await uploadVideoInChunks(
+    formData.cooldownVideo,
+    "cooldownVideo"
+  );
 
-  if (formData.cooldownVideo instanceof File) {
-    data.append("cooldownVideo", formData.cooldownVideo);
-  }
+  // Send final request to create conditioning with video paths
+  const conditioningData = {
+    warmUpVideoUrl: warmUpVideoPath,
+    cooldownVideoUrl: cooldownVideoPath,
+  };
 
   try {
     const response = await axiosInstance.post(
       "/api/conditionings/create",
-      data,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
+      conditioningData
     );
     return response;
   } catch (error) {
@@ -38,26 +41,40 @@ export const createConditioningApi = async (formData) => {
   }
 };
 
-export const updateConditioningApi = async (id, formData) => {
-  const data = new FormData();
+export const updateConditioningApi = async (id, formData, conditioning) => {
+  let warmUpVideoUrl = conditioning.warmUpVideoUrl;
+  let cooldownVideoUrl = conditioning.cooldownVideoUrl;
 
   if (formData.warmUpVideo instanceof File) {
-    data.append("warmUpVideo", formData.warmUpVideo);
+    const response = await deleteVideoFile(conditioning.warmUpVideoUrl);
+
+    if (response.data.success) {
+      warmUpVideoUrl = await uploadVideoInChunks(
+        formData.warmUpVideo,
+        "warmUpVideo"
+      );
+    }
   }
 
   if (formData.cooldownVideo instanceof File) {
-    data.append("cooldownVideo", formData.cooldownVideo);
+    const response = await deleteVideoFile(conditioning.cooldownVideoUrl);
+    if (response.data.success) {
+      cooldownVideoUrl = await uploadVideoInChunks(
+        formData.cooldownVideo,
+        "cooldownVideo"
+      );
+    }
   }
+
+  const updatedConditioningVideos = {
+    warmUpVideoUrl,
+    cooldownVideoUrl,
+  };
 
   try {
     const response = await axiosInstance.put(
       `/api/conditionings/update/${id}`,
-      data,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
+      updatedConditioningVideos
     );
     return response;
   } catch (error) {

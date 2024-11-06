@@ -12,26 +12,19 @@ export const getAllConditionings = async (req, res) => {
 };
 
 export const createConditioning = async (req, res) => {
-  const files = req.files;
-
   try {
-    const warmUpVideoFile = files.find(
-      (file) => file.fieldname === "warmUpVideo"
-    );
-
-    const coolDownVideoFile = files.find(
-      (file) => file.fieldname === "cooldownVideo"
-    );
-
-    const warmUpVideoFileUrl = warmUpVideoFile.filename || "";
-    const coolDownVideoFileUrl = coolDownVideoFile.filename || "";
+    const { warmUpVideoUrl, cooldownVideoUrl } = req.body;
 
     const newConditioning = new Conditioning({
-      warmUpVideoUrl: warmUpVideoFileUrl,
-      cooldownVideoUrl: coolDownVideoFileUrl,
+      warmUpVideoUrl,
+      cooldownVideoUrl,
     });
 
     await newConditioning.save();
+
+    if (!newConditioning) {
+      return res.status(400).json({ message: "Failed to create conditioning" });
+    }
 
     return res.status(201).json(newConditioning);
   } catch (error) {
@@ -41,7 +34,7 @@ export const createConditioning = async (req, res) => {
 
 export const updateConditioning = async (req, res) => {
   const { id } = req.params;
-  const files = req.files;
+  const { warmUpVideoUrl, cooldownVideoUrl } = req.body;
 
   try {
     const conditioning = await Conditioning.findById(id);
@@ -50,53 +43,11 @@ export const updateConditioning = async (req, res) => {
       return res.status(404).json({ message: "Conditioning not found" });
     }
 
-    let warmUpVideoFileUrl = conditioning.warmUpVideoUrl;
-    let cooldownVideoFileUrl = conditioning.cooldownVideoUrl;
-
-    if (files) {
-      const warmUpVideoFile = files.find(
-        (file) => file.fieldname === "warmUpVideo"
-      );
-      const cooldownVideoFile = files.find(
-        (file) => file.fieldname === "cooldownVideo"
-      );
-
-      if (warmUpVideoFile) {
-        const warmUpVideoPath = path.join(
-          process.env.VIDEO_UPLOAD_PATH,
-          warmUpVideoFileUrl
-        );
-        fs.unlink(warmUpVideoPath, (err) => {
-          if (err)
-            console.error(
-              `Failed to delete warm-up video: ${warmUpVideoPath}`,
-              err
-            );
-        });
-        warmUpVideoFileUrl = warmUpVideoFile.filename;
-      }
-
-      if (cooldownVideoFile) {
-        const cooldownVideoPath = path.join(
-          process.env.VIDEO_UPLOAD_PATH,
-          cooldownVideoFileUrl
-        );
-        fs.unlink(cooldownVideoPath, (err) => {
-          if (err)
-            console.error(
-              `Failed to delete cool-down video: ${cooldownVideoPath}`,
-              err
-            );
-        });
-        cooldownVideoFileUrl = cooldownVideoFile.filename;
-      }
-    }
-
     const updatedConditioning = await Conditioning.findByIdAndUpdate(
       id,
       {
-        warmUpVideoUrl: warmUpVideoFileUrl,
-        cooldownVideoUrl: cooldownVideoFileUrl,
+        warmUpVideoUrl,
+        cooldownVideoUrl,
       },
       { new: true }
     );

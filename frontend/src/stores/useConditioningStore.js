@@ -43,10 +43,14 @@ const useConditioningStore = create((set) => ({
   },
 
   // Update an existing conditioning
-  updateConditioning: async (id, formData) => {
+  updateConditioning: async (id, formData, conditioning) => {
     set({ updateConditioningLoading: true, error: null });
     try {
-      const updatedConditioning = await updateConditioningApi(id, formData);
+      const updatedConditioning = await updateConditioningApi(
+        id,
+        formData,
+        conditioning
+      );
       set((state) => ({
         conditionings: state.conditionings.map((conditioning) =>
           conditioning._id === id ? updatedConditioning.data : conditioning

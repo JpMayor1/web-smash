@@ -25,7 +25,7 @@ const UpdateConditioning = ({ conditioning, onUpdate }) => {
   const submitUpdateConditioning = async (e) => {
     e.preventDefault();
     try {
-      await updateConditioning(conditioning._id, formData);
+      await updateConditioning(conditioning._id, formData, conditioning);
       setFormData({ warmUpVideo: null, cooldownVideo: null });
       setOpenModal(false);
       onUpdate();

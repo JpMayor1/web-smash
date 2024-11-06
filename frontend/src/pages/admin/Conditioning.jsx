@@ -4,6 +4,7 @@ import baseURL from "../../axios/baseUrl";
 import CreateConditioning from "../../components/conditioning/CreateConditioning";
 import DeleteConditioning from "../../components/conditioning/DeleteConditioning";
 import UpdateConditioning from "../../components/conditioning/UpdateConditioning";
+import { getVideoMimeType } from "../../utils/getVideoMimeType";
 
 const Conditioning = () => {
   const { conditionings, fetchConditionings, loading, error } =
@@ -34,7 +35,7 @@ const Conditioning = () => {
                   >
                     <source
                       src={`${baseURL}/videos/${conditioning.warmUpVideoUrl}`}
-                      type="video/mp4"
+                      type={getVideoMimeType(conditioning.warmUpVideoUrl)}
                     />
                     Your browser does not support the video tag.
                   </video>
@@ -49,7 +50,7 @@ const Conditioning = () => {
                   >
                     <source
                       src={`${baseURL}/videos/${conditioning.cooldownVideoUrl}`}
-                      type="video/mp4"
+                      type={getVideoMimeType(conditioning.cooldownVideoUrl)}
                     />
                     Your browser does not support the video tag.
                   </video>

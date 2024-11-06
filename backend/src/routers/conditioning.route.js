@@ -5,15 +5,14 @@ import {
   updateConditioning,
   deleteConditioning,
 } from "../controllers/conditioning.controller.js";
-import { uploadVideo } from "../middleware/uploadVideo.js";
 
 const router = express.Router();
 
 router.get("/get", getAllConditionings);
 
-router.post("/create", uploadVideo, createConditioning);
+router.post("/create", createConditioning);
 
-router.put("/update/:id", uploadVideo, updateConditioning);
+router.put("/update/:id", updateConditioning);
 
 router.delete("/delete/:id", deleteConditioning);
 

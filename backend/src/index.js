@@ -13,6 +13,7 @@ import adminAuthRouter from "./routers/auth.admin.route.js";
 import trainingRouter from "./routers/training.route.js";
 import conditioningRouter from "./routers/conditioning.route.js";
 import userRouter from "./routers/user.route.js";
+import chunkRouter from "./routers/videos.route.js";
 
 dotenv.config();
 
@@ -49,6 +50,7 @@ app.use("/api/auth/admin", adminAuthRouter);
 app.use("/api/trainings", trainingRouter);
 app.use("/api/conditionings", conditioningRouter);
 app.use("/api/user", userRouter);
+app.use("/api/videos", chunkRouter);
 
 app.use("*", (req, res, next) => {
   res.status(404).json({ message: "Route not found" });

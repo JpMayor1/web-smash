@@ -28,3 +28,8 @@ export const uploadVideo = multer({
     cb(new Error("Error: Video file type not supported!"));
   },
 }).any();
+
+export const uploadVideoChunk = multer({ storage }).fields([
+  { name: "warmUpVideo", maxCount: 1 },
+  { name: "cooldownVideo", maxCount: 1 },
+]);

@@ -46,31 +46,18 @@ export const createTraining = async (req, res) => {
   }
 
   try {
-    const drillArray = Array.isArray(drills) ? drills : [drills];
-
-    const updatedDrills = drillArray.map((drill, index) => {
-      const videoFieldName = `trainingVideo${index}`;
-
-      const videoFile = req.files.find(
-        (file) => file.fieldname === videoFieldName
-      );
-
-      const trainingVideoUrl = videoFile ? videoFile.filename : "";
-
-      return {
-        ...drill,
-        trainingVideoUrl,
-      };
-    });
-
     const newTraining = new Training({
       day,
       title,
-      drills: updatedDrills,
+      drills,
       gender,
     });
 
     await newTraining.save();
+
+    if (!newTraining) {
+      return res.status(400).json({ message: "Failed to create training" });
+    }
 
     return res.status(201).json({
       message: "Training created successfully!",
@@ -98,40 +85,13 @@ export const updateTraining = async (req, res) => {
     training.day = day;
     training.title = title;
     training.gender = gender;
-
-    const files = req.files || [];
-
-    const drillArray = Array.isArray(drills) ? drills : [drills];
-
-    const updatedDrills = drillArray.map((drill, index) => {
-      const videoFieldName = `trainingVideo${index}`;
-
-      const videoFile = files.find((file) => file.fieldname === videoFieldName);
-      const trainingVideoUrl = videoFile
-        ? videoFile.filename
-        : drill.trainingVideoUrl;
-
-      if (videoFile && drill.trainingVideoUrl) {
-        const oldVideoPath = path.join(
-          process.env.VIDEO_UPLOAD_PATH,
-          drill.trainingVideoUrl
-        );
-        fs.unlink(oldVideoPath, (err) => {
-          if (err) {
-            console.error(`Failed to delete old video: ${oldVideoPath}`, err);
-          }
-        });
-      }
-
-      return {
-        ...drill,
-        trainingVideoUrl,
-      };
-    });
-
-    training.drills = updatedDrills;
+    training.drills = drills;
 
     await training.save();
+
+    if (!training) {
+      return res.status(400).json({ message: "Failed to update training" });
+    }
 
     return res.status(200).json({
       message: "Training updated successfully!",
@@ -197,7 +157,7 @@ export const deleteTraining = async (req, res) => {
 };
 
 export const finishDrill = async (req, res) => {
-  const { finishedUserVideoName } = req.body;
+  const { finishedUserVideoUrl } = req.body;
   const { trainingId, drillId } = req.params;
   const userId = req.user._id;
 
@@ -214,12 +174,6 @@ export const finishDrill = async (req, res) => {
     if (!drill) {
       return res.status(404).json({ error: "Drill not found." });
     }
-
-    const videoFile = req.files.find(
-      (file) => file.originalname === finishedUserVideoName
-    );
-
-    const finishedUserVideoUrl = videoFile ? videoFile.filename : "";
 
     // Check if the user already finished the drill
     const alreadyFinished = drill.finishedUsers.some(
@@ -238,6 +192,10 @@ export const finishDrill = async (req, res) => {
     });
 
     await training.save();
+
+    if (!training) {
+      return res.status(400).json({ error: "Failed to finish drill." });
+    }
 
     return res
       .status(200)

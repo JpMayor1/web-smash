@@ -1,4 +1,5 @@
 import axiosInstance from "../axios/axios";
+import { deleteVideoFile, uploadVideoInChunks } from "./videos/videos.api";
 
 // Get all trainings
 export const getAllTrainingApi = async () => {
@@ -31,39 +32,43 @@ export const createTrainingApi = async (formData) => {
   data.append("title", formData.title);
   data.append("gender", formData.gender);
 
-  // Append drills
-  formData.drills.forEach((drill, index) => {
-    // Append each drill's fields
+  for (const [index, drill] of formData.drills.entries()) {
     data.append(`drills[${index}][drillName]`, drill.drillName || "N/A");
     data.append(`drills[${index}][whatToDo]`, drill.whatToDo || "N/A");
     data.append(`drills[${index}][focus]`, drill.focus || "N/A");
     data.append(`drills[${index}][repetitions]`, drill.repetitions || "N/A");
 
-    // Append each "how to do it" item within the drill
     drill.howToDoIt.forEach((howToDo, howIndex) => {
       data.append(`drills[${index}][howToDoIt][${howIndex}]`, howToDo || "");
     });
 
-    if (drill.trainingVideo instanceof File) {
-      const videoFieldname = `trainingVideo${index}`;
-      data.append(videoFieldname, drill.trainingVideo);
-    } else {
-      console.warn(
-        `drill.trainingVideo for drill ${index} is not a File object.`
-      );
-    }
-
-    // Append video reference
     data.append(
       `drills[${index}][videoReference]`,
       drill.videoReference || "N/A"
     );
-  });
+
+    if (drill.trainingVideo instanceof File) {
+      try {
+        const trainingVideoUrl = await uploadVideoInChunks(
+          drill.trainingVideo,
+          `trainingVideo${index}`
+        );
+
+        data.append(
+          `drills[${index}][trainingVideoUrl]`,
+          trainingVideoUrl || "N/A"
+        );
+      } catch (error) {
+        console.error(`Error uploading video for drill ${index}:`, error);
+        throw error;
+      }
+    } else {
+      data.append(`drills[${index}][trainingVideoUrl]`, "N/A");
+    }
+  }
 
   try {
-    const response = await axiosInstance.post("/api/trainings/create", data, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    const response = await axiosInstance.post("/api/trainings/create", data);
     return response;
   } catch (error) {
     console.error("Error creating new training:", error);
@@ -80,8 +85,8 @@ export const updateTrainingApi = async (id, formData) => {
   data.append("title", formData.title);
   data.append("gender", formData.gender);
 
-  // Append drills
-  formData.drills.forEach((drill, index) => {
+  // Process each drill asynchronously
+  for (const [index, drill] of formData.drills.entries()) {
     // Append each drill's fields
     data.append(`drills[${index}][drillName]`, drill.drillName || "");
     data.append(`drills[${index}][whatToDo]`, drill.whatToDo || "");
@@ -93,25 +98,51 @@ export const updateTrainingApi = async (id, formData) => {
       data.append(`drills[${index}][howToDoIt][${howIndex}]`, howToDo || "");
     });
 
-    // Append the original name of the video (if it exists) as a separate field
+    // Append the original name of the video (if it exists) or upload a new one
     if (drill.trainingVideo instanceof File) {
-      const videoFieldname = `trainingVideo${index}`;
-      data.append(videoFieldname, drill.trainingVideo);
+      try {
+        // Delete the old video file if it exists
+        if (drill.trainingVideoUrl) {
+          const response = await deleteVideoFile(drill.trainingVideoUrl);
+          if (!response.data.success) {
+            throw new Error(`Failed to delete video ${drill.trainingVideoUrl}`);
+          }
+        }
+
+        // Upload new video in chunks and get the uploaded video URL
+        const trainingVideoUrl = await uploadVideoInChunks(
+          drill.trainingVideo,
+          `trainingVideo${index}`
+        );
+
+        // Append the new video URL to the form data
+        data.append(
+          `drills[${index}][trainingVideoUrl]`,
+          trainingVideoUrl || "N/A"
+        );
+      } catch (error) {
+        console.error(`Error uploading video for drill ${index}:`, error);
+        throw error;
+      }
+    } else {
+      // If no new video, keep the existing video URL
+      data.append(
+        `drills[${index}][trainingVideoUrl]`,
+        drill.trainingVideoUrl || "N/A"
+      );
     }
 
-    data.append(`drills[${index}][trainingVideoUrl]`, drill.trainingVideoUrl);
-
     // Append video reference
-    data.append(`drills[${index}][videoReference]`, drill.videoReference || "");
-  });
+    data.append(
+      `drills[${index}][videoReference]`,
+      drill.videoReference || "N/A"
+    );
+  }
 
   try {
     const response = await axiosInstance.put(
       `/api/trainings/update/${id}`,
-      data,
-      {
-        headers: { "Content-Type": "multipart/form-data" },
-      }
+      data
     );
     return response;
   } catch (error) {
@@ -135,17 +166,23 @@ export const finishDrillApi = async (trainingId, drillId, file) => {
   const data = new FormData();
 
   if (file instanceof File) {
-    data.append("finishedUserVideo", file);
-    data.append("finishedUserVideoName", file.name);
+    try {
+      const finishedUserVideoUrl = await uploadVideoInChunks(
+        file,
+        `finishedUserVideoUrl`
+      );
+
+      data.append("finishedUserVideoUrl", finishedUserVideoUrl);
+    } catch (error) {
+      console.error("Error uploading finished user video:", error);
+      throw error;
+    }
   }
 
   try {
     const response = await axiosInstance.put(
       `/api/trainings/finish-drill/${trainingId}/${drillId}`,
-      data,
-      {
-        headers: { "Content-Type": "multipart/form-data" },
-      }
+      data
     );
     return response;
   } catch (error) {

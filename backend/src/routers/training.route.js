@@ -8,22 +8,16 @@ import {
   finishDrill,
   addFeedback,
 } from "../controllers/training.controller.js";
-import { uploadVideo } from "../middleware/uploadVideo.js";
 import userProtectRoute from "../middleware/user.protected.route.js";
 
 const router = express.Router();
 
-router.post("/create", uploadVideo, createTraining);
+router.post("/create", createTraining);
 router.get("/getAll", getAllTrainings);
 router.get("/getById/:id", getTrainingById);
-router.put("/update/:id", uploadVideo, updateTraining);
+router.put("/update/:id", updateTraining);
 router.delete("/delete/:id", deleteTraining);
-router.put(
-  "/finish-drill/:trainingId/:drillId",
-  userProtectRoute,
-  uploadVideo,
-  finishDrill
-);
+router.put("/finish-drill/:trainingId/:drillId", userProtectRoute, finishDrill);
 router.put("/addFeedback/:trainingId/:drillId/:userId", addFeedback);
 
 export default router;

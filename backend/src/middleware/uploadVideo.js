@@ -12,24 +12,19 @@ const storage = multer.diskStorage({
   },
 });
 
-export const uploadVideo = multer({
-  storage: storage,
-  limits: { fileSize: 2 * 1024 * 1024 * 1024 },
-  fileFilter: (req, file, cb) => {
-    const filetypes = /mp4|mkv|avi|mov/;
-    const mimetype = filetypes.test(file.mimetype);
-    const extname = filetypes.test(
-      path.extname(file.originalname).toLowerCase()
-    );
-
-    if (mimetype && extname) {
-      return cb(null, true);
-    }
-    cb(new Error("Error: Video file type not supported!"));
-  },
-}).any();
-
 export const uploadVideoChunk = multer({ storage }).fields([
   { name: "warmUpVideo", maxCount: 1 },
   { name: "cooldownVideo", maxCount: 1 },
+  { name: "trainingVideo0", maxCount: 1 },
+  { name: "trainingVideo1", maxCount: 1 },
+  { name: "trainingVideo2", maxCount: 1 },
+  { name: "trainingVideo3", maxCount: 1 },
+  { name: "trainingVideo4", maxCount: 1 },
+  { name: "trainingVideo5", maxCount: 1 },
+  { name: "trainingVideo6", maxCount: 1 },
+  { name: "trainingVideo7", maxCount: 1 },
+  { name: "trainingVideo8", maxCount: 1 },
+  { name: "trainingVideo9", maxCount: 1 },
+  { name: "trainingVideo10", maxCount: 1 },
+  { name: "finishedUserVideoUrl", maxCount: 1 },
 ]);

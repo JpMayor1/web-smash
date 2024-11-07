@@ -5,6 +5,7 @@ import {
   updateConditioningApi,
   deleteConditioningApi,
 } from "../api/conditionings.api";
+import toast from "react-hot-toast";
 
 const useConditioningStore = create((set) => ({
   conditionings: [],
@@ -35,6 +36,7 @@ const useConditioningStore = create((set) => ({
       set((state) => ({
         conditionings: [...state.conditionings, newConditioning.data],
       }));
+      toast.success("Conditioning created successfully!");
     } catch (error) {
       set({ error });
     } finally {
@@ -56,6 +58,7 @@ const useConditioningStore = create((set) => ({
           conditioning._id === id ? updatedConditioning.data : conditioning
         ),
       }));
+      toast.success("Conditioning updated successfully!");
     } catch (error) {
       set({ error });
     } finally {
@@ -73,6 +76,7 @@ const useConditioningStore = create((set) => ({
           (conditioning) => conditioning._id !== id
         ),
       }));
+      toast.success("Conditioning deleted successfully!");
     } catch (error) {
       set({ error });
     } finally {

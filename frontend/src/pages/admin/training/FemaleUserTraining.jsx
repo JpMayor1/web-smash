@@ -4,6 +4,7 @@ import { usetrainingStore } from "../../../stores/useTrainingStore";
 import { useEffect, useState } from "react";
 import baseURL from "../../../axios/baseUrl";
 import useAddFeedback from "../../../hooks/admin/training/useAddFeedback";
+import { getVideoMimeType } from "../../../utils/getVideoMimeType";
 
 const FemaleUserTraining = () => {
   const [feedbacks, setFeedbacks] = useState({});
@@ -107,7 +108,7 @@ const FemaleUserTraining = () => {
                     >
                       <source
                         src={`${baseURL}/videos/${drill.trainingVideoUrl}`}
-                        type="video/mp4"
+                        type={getVideoMimeType(drill.trainingVideoUrl)}
                       />
                       Your browser does not support the video tag.
                     </video>
@@ -138,7 +139,9 @@ const FemaleUserTraining = () => {
                                 >
                                   <source
                                     src={`${baseURL}/videos/${u.finishedUserVideoUrl}`}
-                                    type="video/mp4"
+                                    type={getVideoMimeType(
+                                      u.finishedUserVideoUrl
+                                    )}
                                   />
                                   Your browser does not support the video tag.
                                 </video>

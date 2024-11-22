@@ -6,7 +6,9 @@ const CreateConditioning = () => {
   const [openModal, setOpenModal] = useState(false);
   const [formData, setFormData] = useState({
     warmUpVideo: null,
+    warmUpVideoReference: "",
     cooldownVideo: null,
+    cooldownVideoReference: "",
   });
 
   const { createConditioning, createConditioningLoading } =
@@ -20,6 +22,14 @@ const CreateConditioning = () => {
         [name]: files[0],
       }));
     }
+  };
+
+  const handleVideoReferenceChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const submitCreateConditioning = async (e) => {
@@ -72,6 +82,23 @@ const CreateConditioning = () => {
               required
             />
           </label>
+
+          <label className="form-control w-full">
+            <div className="label">
+              <span className="label-text text-white">
+                Warm up Video Reference:
+              </span>
+            </div>
+            <input
+              type="text"
+              value={formData.warmUpVideoReference}
+              name="warmUpVideoReference"
+              onChange={handleVideoReferenceChange}
+              className="bg-white py-3 px-4 rounded-md w-full text-black"
+              required
+            />
+          </label>
+
           <label className="form-control w-full">
             <div className="label">
               <span className="label-text text-white">Cool down Video:</span>
@@ -85,6 +112,23 @@ const CreateConditioning = () => {
               required
             />
           </label>
+
+          <label className="form-control w-full">
+            <div className="label">
+              <span className="label-text text-white">
+                Coll down Video Reference:
+              </span>
+            </div>
+            <input
+              type="text"
+              value={formData.cooldownVideoReference}
+              name="cooldownVideoReference"
+              onChange={handleVideoReferenceChange}
+              className="bg-white py-3 px-4 rounded-md w-full text-black"
+              required
+            />
+          </label>
+
           <div className="w-full flex justify-end">
             <button
               type="submit"

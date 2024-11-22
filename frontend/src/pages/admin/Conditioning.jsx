@@ -39,6 +39,13 @@ const Conditioning = () => {
                     />
                     Your browser does not support the video tag.
                   </video>
+                  <a
+                    href={conditioning.warmUpVideoReference}
+                    target="_blank"
+                    className="text-secondary/90 hover:text-secondary"
+                  >
+                    {conditioning.warmUpVideoReference}
+                  </a>
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-black mb-2">
@@ -54,6 +61,13 @@ const Conditioning = () => {
                     />
                     Your browser does not support the video tag.
                   </video>
+                  <a
+                    href={conditioning.cooldownVideoReference}
+                    target="_blank"
+                    className="text-secondary/90 hover:text-secondary"
+                  >
+                    {conditioning.cooldownVideoReference}
+                  </a>
                 </div>
               </div>
               <div className="w-full flex gap-4 items-center justify-center mt-3">

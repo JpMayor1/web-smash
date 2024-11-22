@@ -26,7 +26,9 @@ export const createConditioningApi = async (formData) => {
   // Send final request to create conditioning with video paths
   const conditioningData = {
     warmUpVideoUrl: warmUpVideoPath,
+    warmUpVideoReference: formData.warmUpVideoReference,
     cooldownVideoUrl: cooldownVideoPath,
+    cooldownVideoReference: formData.cooldownVideoReference,
   };
 
   try {
@@ -68,7 +70,9 @@ export const updateConditioningApi = async (id, formData, conditioning) => {
 
   const updatedConditioningVideos = {
     warmUpVideoUrl,
-    cooldownVideoUrl,
+    warmUpVideoReference: formData.warmUpVideoReference,
+    cooldownVideoUrl: cooldownVideoUrl,
+    cooldownVideoReference: formData.cooldownVideoReference,
   };
 
   try {

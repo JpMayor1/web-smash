@@ -13,11 +13,18 @@ export const getAllConditionings = async (req, res) => {
 
 export const createConditioning = async (req, res) => {
   try {
-    const { warmUpVideoUrl, cooldownVideoUrl } = req.body;
+    const {
+      warmUpVideoUrl,
+      warmUpVideoReference,
+      cooldownVideoUrl,
+      cooldownVideoReference,
+    } = req.body;
 
     const newConditioning = new Conditioning({
       warmUpVideoUrl,
+      warmUpVideoReference,
       cooldownVideoUrl,
+      cooldownVideoReference,
     });
 
     await newConditioning.save();
@@ -34,7 +41,12 @@ export const createConditioning = async (req, res) => {
 
 export const updateConditioning = async (req, res) => {
   const { id } = req.params;
-  const { warmUpVideoUrl, cooldownVideoUrl } = req.body;
+  const {
+    warmUpVideoUrl,
+    warmUpVideoReference,
+    cooldownVideoUrl,
+    cooldownVideoReference,
+  } = req.body;
 
   try {
     const conditioning = await Conditioning.findById(id);
@@ -47,7 +59,9 @@ export const updateConditioning = async (req, res) => {
       id,
       {
         warmUpVideoUrl,
+        warmUpVideoReference,
         cooldownVideoUrl,
+        cooldownVideoReference,
       },
       { new: true }
     );
